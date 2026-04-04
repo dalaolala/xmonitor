@@ -1,0 +1,6 @@
+{
+  "auth_secret": "auth_secret",
+  "url": "ws://localhost:3001/monitor",
+  "net_name": "以太网 5",
+  "name": "CN-Windows"
+}
