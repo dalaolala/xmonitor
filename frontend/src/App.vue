@@ -529,15 +529,15 @@ provide('handleChangeType', handleChangeType)
         <a-button type="primary" :long="true" @click="handleEditHost">{{$t('edit-host-btn')}}</a-button>
       </div>
     </a-modal>
-    <div class="footer" style="margin-top: 30px">{{$t('open-source')}} <a href="https://github.com/akile-network/akile_monitor">GitHub v0.0.3</a></div>
-    <div class="footer" style="margin-bottom: 30px">Copyright © 2023-{{new Date().getFullYear()}} X Monitor Team.</div>
+    <div class="footer">{{$t('open-source')}} <a href="https://github.com/dalaolala/xmonitor">GitHub</a></div>
+    <div class="footer">Copyright © 2023-{{new Date().getFullYear()}} X Monitor Team.</div>
   </div>
 </template>
 
 <style lang="scss">
 body {
   margin: 0;
-  background-color: #fafafa;
+  background-color: #f5f7fa;
   font-family: Inter,-apple-system,BlinkMacSystemFont,Roboto,PingFang SC,Noto Sans CJK,WenQuanYi Micro Hei,Microsoft YaHei;
 }
 
@@ -552,15 +552,20 @@ a {
 }
 
 .header {
-  margin: 10px;
+  margin: 16px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   .theme-btn {
-    border: 1px solid #eeeeee!important;
-    background-color: #ffffff!important;
-    color: #333333!important;
+    border: none!important;
+    background-color: transparent!important;
+    color: #666!important;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(0,0,0,0.05)!important;
+    }
   }
 }
 
@@ -569,58 +574,63 @@ a {
   border-radius: 8px!important;
   .arco-dropdown-option {
     border-radius: 4px !important;
-    padding: 8px;
+    padding: 6px 10px;
     line-height: 13px;
     font-size: 13px;
   }
 }
 
 .area-tabs {
-  margin: 20px 10px;
+  margin: 12px 20px;
 
   .area-tab-item {
-    margin-bottom: 10px;
-    margin-right: 10px;
-    padding: 6px 12px;
-    border-radius: 6px;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    padding: 5px 10px;
+    border-radius: 20px;
     cursor: pointer;
-    border: 1px solid #e5e5e5;
-    background: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(133, 138, 180, 0.14);
+    border: none;
+    background: rgba(0,0,0,0.04);
     display: inline-block;
+    font-size: 13px;
+    transition: all 0.2s ease;
 
     .flag-icon {
-      border-radius: 3px;
-      margin-top: -3px;
+      border-radius: 2px;
+      margin-top: -2px;
     }
 
     &.is-active {
-      background: #005fe710;
-      color: #054db4;
-      border: 1px solid #005fe7;
+      background: linear-gradient(135deg, #165DFF 0%, #0E4DCC 100%);
+      color: #fff;
+    }
+    
+    &:hover:not(.is-active) {
+      background: rgba(0,0,0,0.08);
     }
   }
-
 }
 
 .monitor-card {
   position: relative;
   margin: 0 auto;
-  padding: 10px;
+  padding: 0 20px 20px;
 
   .monitor-item {
     position: relative;
-    margin-bottom: 12px;
-    padding: 12px 24px;
-    border-radius: 6px;
-    border: 1px solid #e5e5e5;
+    margin-bottom: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
     display: block;
     background: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(133, 138, 180, 0.14);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     cursor: pointer;
+    transition: all 0.2s ease;
 
     &.is-active {
-      background: #e7e7e730;
+      background: #f8faff;
+      box-shadow: 0 2px 8px rgba(22,93,255,0.12);
 
       .delete-btn,
       .edit-btn {
@@ -628,15 +638,16 @@ a {
       }
 
       &>.detail {
-        margin-top: 15px;
-        border-top: 1px solid #eeeeee;
-        padding-top: 15px;
+        margin-top: 12px;
+        border-top: 1px solid #eef2f7;
+        padding-top: 12px;
         display: block;
       }
     }
 
-    &:hover {
-      background: #e7e7e730;
+    &:hover:not(.is-active) {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
 
       .delete-btn,
       .edit-btn {
@@ -645,60 +656,63 @@ a {
     }
 
     .edit-btn {
-      right: 60px!important;
-      background: rgba(22, 131, 255, 0.13)!important;
+      right: 52px!important;
+      background: rgba(22, 93, 255, 0.08)!important;
 
       &:hover {
-        background: rgba(22, 131, 255, 0.19)!important;
+        background: rgba(22, 93, 255, 0.15)!important;
       }
 
       .arco-icon {
-        color: #1673ff!important;
+        color: #165DFF!important;
       }
     }
 
     .delete-btn,
     .edit-btn {
       position: absolute;
-      right: 20px;
-      top: calc(50% - 16px);
+      right: 12px;
+      top: calc(50% - 14px);
       cursor: pointer;
-      background: #ff161620;
-      border-radius: 100px;
-      width: 32px;
-      height: 32px;
+      background: rgba(245, 63, 63, 0.08);
+      border-radius: 8px;
+      width: 28px;
+      height: 28px;
       display: none;
       align-items: center;
       justify-content: center;
       transition: .15s background-color ease-in-out;
 
       &:hover {
-        background: #ff161630;
+        background: rgba(245, 63, 63, 0.15);
       }
 
       .arco-icon {
-        color: #ff1616;
+        color: #F53F3F;
+        font-size: 14px;
       }
     }
 
     .flag-icon {
-      margin-right: 5px;
-      border-radius: 3px;
+      margin-right: 4px;
+      border-radius: 2px;
     }
 
     .monitor-item-title {
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       font-size: 11px;
-      opacity: .6;
+      opacity: .5;
+      font-weight: 400;
     }
 
     .monitor-item-value {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 13px;
     }
 
     .monitor-item-progress {
-      margin-top: 4px;
-      height: 4px;
+      margin-top: 3px;
+      height: 3px;
       display: block;
     }
 
@@ -709,39 +723,39 @@ a {
     .name {
       display: inline-block;
       vertical-align: middle;
-      width: 250px;
+      width: 200px;
 
       .title {
-        margin-bottom: 5px;
+        margin-bottom: 4px;
         display: flex;
         align-items: center;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 14px;
       }
 
       .status {
         display: flex;
         align-items: center;
         &::before {
-          margin-right: 10px;
+          margin-right: 8px;
           position: relative;
           display: block;
           content: '';
-          width: 8px;
-          height: 8px;
-          border-radius: 12px;
-          background-color: #fb2c36;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: #F53F3F;
         }
 
         &.online {
           &::before {
-            background-color: #00c951;
+            background-color: #00B42A;
           }
         }
 
         span {
-          font-size: 13px;
-          opacity: .6;
+          font-size: 12px;
+          opacity: .5;
         }
       }
     }
@@ -749,52 +763,52 @@ a {
     .platform {
       display: inline-block;
       vertical-align: top;
-      width: 120px;
+      width: 100px;
     }
 
     .cpu {
       display: inline-block;
       vertical-align: top;
-      width: 120px;
+      width: 100px;
     }
 
     .mem {
       display: inline-block;
       vertical-align: top;
-      width: 120px;
+      width: 100px;
     }
 
     .average {
       display: inline-block;
       vertical-align: top;
-      width: 200px;
+      width: 160px;
     }
 
     .network {
       display: inline-block;
       vertical-align: top;
-      width: 200px;
+      width: 160px;
     }
 
     .uptime {
       display: inline-block;
       vertical-align: middle;
-      width: 200px;
+      width: 100px;
     }
 
     .detail {
       display: none;
 
       .detail-item-list {
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
 
       .detail-item {
         .name {
           width: 30%;
           font-size: 12px;
-          color: #666;
-          margin-bottom: 5px;
+          color: #86909c;
+          margin-bottom: 4px;
           display: inline-block;
           vertical-align: top;
         }
@@ -805,6 +819,7 @@ a {
           font-weight: 500;
           display: inline-block;
           vertical-align: top;
+          color: #1d2129;
         }
       }
     }
@@ -812,33 +827,38 @@ a {
 }
 
 .logo {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
   position: relative;
   cursor: pointer;
-  line-height: 54px;
-  height: 54px;
-  font-size: 16px;
-  font-weight: 900;
-  color: #333;
+  line-height: 40px;
+  height: 40px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1d2129;
   display: flex;
   align-items: center;
 
   .arco-icon {
-    margin-right: 5px;
-    height: 28px;
-    width: 28px;
+    margin-right: 8px;
+    height: 24px;
+    width: 24px;
     color: rgb(22,93,255)!important;
+  }
+  
+  small {
+    font-weight: 400;
+    opacity: .6;
   }
 }
 
 .monitor-action-bar {
-  margin: 0 10px;
+  margin: 0 20px;
   display: inline-block;
-  border: 1px solid #e5e5e5;
+  border: none;
   background: #ffffff;
-  box-shadow: 0 2px 4px 0 rgba(133, 138, 180, 0.14);
-  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: 8px;
 
   :deep(.arco-tabs-content) {
     display: none;
@@ -846,12 +866,14 @@ a {
 }
 
 .footer {
-  line-height: 22px;
+  line-height: 20px;
   text-align: center;
-  color: #565656;
+  color: #86909c;
+  font-size: 12px;
+  padding: 8px 0;
 
   a {
-    color: rgba(var(--primary-6));
+    color: #165DFF;
   }
 }
 
@@ -859,31 +881,31 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .akile-modal-content {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   .tips {
     font-size: 12px;
-    color: #333333;
-    margin-top: 10px;
+    color: #86909c;
+    margin-top: 8px;
   }
 }
 
 body[arco-theme='dark'] {
-  background-color: #111111;
+  background-color: #0d0d0d;
 
   .arco-dropdown {
-    background-color: #000000!important;
-    border: 1px solid rgb(46 46 46)!important;
+    background-color: #1a1a1a!important;
+    border: 1px solid #2a2a2a!important;
   }
 
   .arco-modal {
-    background-color: #0e0e0e;
-    border: 1px solid rgba(255,255,255,0.05);
+    background-color: #1a1a1a;
+    border: 1px solid #2a2a2a;
   }
 
   .header {
@@ -895,62 +917,89 @@ body[arco-theme='dark'] {
     }
 
     .theme-btn {
-      border: 1px solid #333333!important;
-      background-color: #000000!important;
-      color: #ffffff!important;
+      border: none!important;
+      background-color: transparent!important;
+      color: #aaa!important;
+      
+      &:hover {
+        background-color: rgba(255,255,255,0.08)!important;
+      }
     }
   }
 
   .area-tabs {
     .area-tab-item {
-      border-color: #333333;
-      background: #000000;
+      border: none;
+      background: rgba(255,255,255,0.06);
       color: #ffffff;
-      box-shadow: none;
 
       &.is-active {
-        background: #005fe705;
-        color: #005fe7;
-        border: 1px solid #005fe7;
+        background: linear-gradient(135deg, #165DFF 0%, #0E4DCC 100%);
+        color: #fff;
+      }
+      
+      &:hover:not(.is-active) {
+        background: rgba(255,255,255,0.1);
       }
     }
   }
 
   .footer {
-    color: #ffffffAA;
+    color: #5c5c5c;
   }
 
   .monitor-card {
     .monitor-item {
-      border: 1px solid rgb(255 255 255 / 16%);
-      box-shadow: none;
-      background-color: #000000;
+      border: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      background-color: #1a1a1a;
       color: #ffffff;
 
-      &:hover {
-        background-color: #101010;
+      &:hover:not(.is-active) {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        background-color: #222;
+      }
+      
+      &.is-active {
+        background: #1e2230;
       }
 
       .detail {
-        border-color: #333333AA;
+        border-color: #2a2a2a;
         .detail-item-list {
           .detail-item {
             .name {
-              color: #999999;
+              color: #5c5c5c;
+            }
+            .value {
+              color: #e5e5e5;
             }
           }
         }
       }
     }
   }
-
 }
 
 @media screen and (max-width: 768px) {
   .monitor-item {
+    padding: 12px 16px;
+    
     &>div {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
+  }
+  
+  .header {
+    margin: 12px 16px;
+  }
+  
+  .area-tabs {
+    margin: 8px 16px;
+  }
+  
+  .monitor-card {
+    padding: 0 16px 16px;
   }
 
   .detail {
@@ -991,7 +1040,8 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 576px) {
   .max-container {
-    max-width: 540px;
+    max-width: 100%;
+    padding: 0 8px;
   }
 }
 </style>

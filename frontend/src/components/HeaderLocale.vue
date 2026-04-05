@@ -65,16 +65,25 @@ onMounted(() => {
 }
 
 .locale-btn {
-  border: 1px solid #eeeeee !important;
-  background-color: #ffffff !important;
-  color: #333333 !important;
+  border: none !important;
+  background-color: transparent !important;
+  color: #666 !important;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(0,0,0,0.05) !important;
+  }
 }
 
 body[arco-theme='dark'] {
   .locale-btn {
-    border: 1px solid #333333!important;
-    background-color: #000000!important;
-    color: #ffffff!important;
+    border: none!important;
+    background-color: transparent!important;
+    color: #aaa!important;
+    
+    &:hover {
+      background-color: rgba(255,255,255,0.08) !important;
+    }
   }
 }
 </style>
