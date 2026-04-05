@@ -6,6 +6,8 @@ import StatsCard from "@/components/StatsCard.vue"
 import MonitorCard from "@/components/MonitorCard.vue"
 import DeleteHostModal from "@/components/DeleteHostModal.vue"
 import EditHostModal from "@/components/EditHostModal.vue"
+import ExportModal from "@/components/ExportModal.vue"
+import ImportModal from "@/components/ImportModal.vue"
 import AppFooter from "@/components/AppFooter.vue"
 import { useWebSocket } from "@/composables/useWebSocket"
 import { useTheme } from "@/composables/useTheme"
@@ -39,7 +41,15 @@ const {
   deleteVisible,
   showDelete,
   deleteHost,
-  closeDelete
+  closeDelete,
+  exportVisible,
+  showExport,
+  exportDB,
+  closeExport,
+  importVisible,
+  showImport,
+  importDB,
+  closeImport
 } = useHostInfo(apiURL)
 
 // 当 apiURL 变化时重新获取主机信息
@@ -134,7 +144,7 @@ onMounted(async () => {
 <template>
   <div class="max-container">
     <!-- Header -->
-    <AppHeader :dark="dark" @changeDark="handleChangeDark" />
+    <AppHeader :dark="dark" @changeDark="handleChangeDark" @exportDB="showExport" @importDB="showImport" />
     
     <!-- 区域标签 -->
     <AreaTabs :area="area" :selectArea="selectArea" @selectArea="handleSelectArea" />
@@ -168,7 +178,7 @@ onMounted(async () => {
       @close="closeDelete" />
     
     <!-- 编辑弹窗 -->
-    <EditHostModal 
+    <EditHostModal
       :visible="editVisible"
       :editHostName="editHostName"
       :duetime="duetime"
@@ -184,6 +194,24 @@ onMounted(async () => {
       @update:authSecret="(v) => authSecret = v"
       @edit="editHost"
       @close="closeEdit" />
+
+    <!-- 导出弹窗 -->
+    <ExportModal
+      :visible="exportVisible"
+      :authSecret="authSecret"
+      @update:visible="(v) => exportVisible = v"
+      @update:authSecret="(v) => authSecret = v"
+      @export="exportDB"
+      @close="closeExport" />
+
+    <!-- 导入弹窗 -->
+    <ImportModal
+      :visible="importVisible"
+      :authSecret="authSecret"
+      @update:visible="(v) => importVisible = v"
+      @update:authSecret="(v) => authSecret = v"
+      @import="importDB"
+      @close="closeImport" />
     
     <!-- Footer -->
     <AppFooter />

@@ -53,5 +53,19 @@
   "remove-success": "Erfolgreich entfernt",
   "ws-error": "Fehler beim Analysieren der WebSocket-Nachricht:",
   "ws-error-reconnect": "WebSocket getrennt, versuche erneut zu verbinden...",
-  "get-config-error": "Konfigurationsabruf fehlgeschlagen"
+  "get-config-error": "Konfigurationsabruf fehlgeschlagen",
+  "export": "Exportieren",
+  "import": "Importieren",
+  "export-success": "Export erfolgreich",
+  "export-fail": "Export fehlgeschlagen",
+  "import-success": "Import erfolgreich",
+  "import-fail": "Import fehlgeschlagen",
+  "import-data": "Daten importieren",
+  "auth-secret": "Verwaltungsschlüssel",
+  "auth-secret-placeholder": "Bitte Verwaltungsschlüssel eingeben",
+  "select-file": "Datei auswählen",
+  "select-json-file": "JSON-Datei auswählen",
+  "need-auth-secret": "Bitte zuerst Verwaltungsschlüssel eingeben",
+  "need-file": "Bitte eine Datei zum Importieren auswählen",
+  "export-data": "Daten exportieren"
 }

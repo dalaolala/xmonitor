@@ -53,5 +53,19 @@
   "remove-success": "削除成功",
   "ws-error": "WebSocketメッセージの解析中にエラーが発生しました:",
   "ws-error-reconnect": "WebSocketが切断されました。再接続中...",
-  "get-config-error": "設定の取得に失敗しました"
+  "get-config-error": "設定の取得に失敗しました",
+  "export": "エクスポート",
+  "import": "インポート",
+  "export-success": "エクスポート成功",
+  "export-fail": "エクスポート失敗",
+  "import-success": "インポート成功",
+  "import-fail": "インポート失敗",
+  "import-data": "データをインポート",
+  "auth-secret": "管理キー",
+  "auth-secret-placeholder": "管理キーを入力してください",
+  "select-file": "ファイルを選択",
+  "select-json-file": "JSONファイルを選択",
+  "need-auth-secret": "先に管理キーを入力してください",
+  "need-file": "インポートするファイルを選択してください",
+  "export-data": "データをエクスポート"
 }

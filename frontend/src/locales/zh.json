@@ -53,5 +53,19 @@
   "remove-success": "删除成功",
   "ws-error": "解析 WebSocket 消息时出错:",
   "ws-error-reconnect": "WebSocket已断连，正在重连中...",
-  "get-config-error": "获取配置失败"
+  "get-config-error": "获取配置失败",
+  "export": "导出",
+  "import": "导入",
+  "export-success": "导出成功",
+  "export-fail": "导出失败",
+  "import-success": "导入成功",
+  "import-fail": "导入失败",
+  "import-data": "导入数据",
+  "auth-secret": "管理密钥",
+  "auth-secret-placeholder": "请输入管理密钥",
+  "select-file": "选择文件",
+  "select-json-file": "选择JSON文件",
+  "need-auth-secret": "请先输入管理密钥",
+  "need-file": "请选择要导入的文件",
+  "export-data": "导出数据"
 }

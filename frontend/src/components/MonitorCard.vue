@@ -45,7 +45,7 @@ const isActive = computed(() => props.selectHost === props.item.Host.Name)
     </div>
     <div class="platform">
       <div class="monitor-item-title">{{ $t('system') }}</div>
-      <div class="monitor-item-value">{{item.Host.Platform}} {{item.Host.PlatformVersion}}</div>
+      <div class="monitor-item-value">{{item.Host.Platform && item.Host.Platform.toLowerCase().includes('windows') ? 'Windows' : `${item.Host.Platform || ''} ${item.Host.PlatformVersion || ''}`}}</div>
     </div>
     <div class="cpu">
       <div class="monitor-item-title">CPU</div>

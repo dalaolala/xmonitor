@@ -5,7 +5,7 @@ defineProps({
   dark: Boolean
 })
 
-const emit = defineEmits(['changeDark'])
+const emit = defineEmits(['changeDark', 'exportDB', 'importDB'])
 </script>
 
 <template>
@@ -18,6 +18,14 @@ const emit = defineEmits(['changeDark'])
       <small style="font-weight: 400;opacity: .8"> ｜ {{ $t('title') }}</small>
     </a>
     <a-space>
+      <a-button class="action-btn" size="small" @click="emit('exportDB')">
+        <template #icon><icon-download /></template>
+        {{ $t('export') }}
+      </a-button>
+      <a-button class="action-btn" size="small" @click="emit('importDB')">
+        <template #icon><icon-upload /></template>
+        {{ $t('import') }}
+      </a-button>
       <HeaderLocale />
       <a-button class="theme-btn" :shape="'round'" @click="emit('changeDark')">
         <template #icon>
@@ -36,12 +44,23 @@ const emit = defineEmits(['changeDark'])
   align-items: center;
   justify-content: space-between;
 
+  .action-btn {
+    border: none!important;
+    background-color: transparent!important;
+    color: #666!important;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: rgba(0,0,0,0.05)!important;
+    }
+  }
+
   .theme-btn {
     border: none!important;
     background-color: transparent!important;
     color: #666!important;
     transition: all 0.2s ease;
-    
+
     &:hover {
       background-color: rgba(0,0,0,0.05)!important;
     }
@@ -85,11 +104,21 @@ body[arco-theme='dark'] {
       }
     }
 
+    .action-btn {
+      border: none!important;
+      background-color: transparent!important;
+      color: #aaa!important;
+
+      &:hover {
+        background-color: rgba(255,255,255,0.08)!important;
+      }
+    }
+
     .theme-btn {
       border: none!important;
       background-color: transparent!important;
       color: #aaa!important;
-      
+
       &:hover {
         background-color: rgba(255,255,255,0.08)!important;
       }

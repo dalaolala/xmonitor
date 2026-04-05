@@ -53,5 +53,19 @@
   "remove-success": "Delete successful",
   "ws-error": "Error parsing WebSocket message:",
   "ws-error-reconnect": "WebSocket has been disconnected, reconnecting...",
-  "get-config-error": "Failed to fetch configuration"
+  "get-config-error": "Failed to fetch configuration",
+  "export": "Export",
+  "import": "Import",
+  "export-success": "Export successful",
+  "export-fail": "Export failed",
+  "import-success": "Import successful",
+  "import-fail": "Import failed",
+  "import-data": "Import Data",
+  "auth-secret": "Auth Secret",
+  "auth-secret-placeholder": "Please enter auth secret",
+  "select-file": "Select File",
+  "select-json-file": "Select JSON file",
+  "need-auth-secret": "Please enter auth secret first",
+  "need-file": "Please select a file to import",
+  "export-data": "Export Data"
 }

@@ -174,6 +174,8 @@ func main() {
 	h.GET(cfg.WebUri, ws)
 	h.GET(cfg.HookUri, Hook)
 	h.POST("/delete", DeleteHost)
+	h.GET("/export", ExportDB)
+	h.POST("/import", ImportDB)
 	h.Spin()
 }
 
@@ -255,6 +257,71 @@ func DeleteHost(_ context.Context, c *app.RequestContext) {
 	}
 
 	db.Delete(&Data{}, "name = ?", req.Name)
+	c.JSON(200, "ok")
+}
+
+// ExportDB 导出数据库
+func ExportDB(_ context.Context, c *app.RequestContext) {
+	token := c.Query("token")
+	if token != cfg.AuthSecret {
+		c.JSON(401, map[string]string{"message": "auth failed"})
+		return
+	}
+
+	var hosts []Host
+	err := filedb.Model(&Host{}).Find(&hosts).Error
+	if err != nil {
+		c.JSON(500, map[string]string{"message": "failed to read database"})
+		return
+	}
+
+	data, err := json.Marshal(hosts)
+	if err != nil {
+		c.JSON(500, map[string]string{"message": "failed to marshal data"})
+		return
+	}
+
+	c.Header("Content-Type", "application/json")
+	c.Header("Content-Disposition", "attachment; filename=ak_monitor_export.json")
+	c.Write(data)
+}
+
+// ImportRequest 导入请求结构
+type ImportRequest struct {
+	AuthSecret string `json:"auth_secret"`
+	Hosts      []Host `json:"hosts"`
+}
+
+// ImportDB 导入数据库
+func ImportDB(_ context.Context, c *app.RequestContext) {
+	var req ImportRequest
+	err := c.BindJSON(&req)
+	if err != nil {
+		c.JSON(400, "bad request")
+		return
+	}
+
+	if req.AuthSecret != cfg.AuthSecret {
+		c.JSON(401, "auth failed")
+		return
+	}
+
+	if len(req.Hosts) == 0 {
+		c.JSON(400, "no hosts data")
+		return
+	}
+
+	// 导入数据，覆盖已存在的记录
+	for _, host := range req.Hosts {
+		var h Host
+		filedb.Model(&Host{}).Where("name = ?", host.Name).First(&h)
+		if h.Name == "" {
+			filedb.Model(&Host{}).Create(&host)
+		} else {
+			filedb.Model(&Host{}).Where("name = ?", host.Name).Save(&host)
+		}
+	}
+
 	c.JSON(200, "ok")
 }
 
