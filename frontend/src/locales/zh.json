@@ -18,6 +18,7 @@
   "process": "进程",
   "load": "负载平均值",
   "due-time-only": "剩余时间",
+  "days": "天",
   "report-time": "上报时间",
   "hostname": "主机名",
   "area": "地区",

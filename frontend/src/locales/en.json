@@ -18,6 +18,7 @@
   "process": "Processes",
   "load": "Load Average",
   "due-time-only": "Remaining Time",
+  "days": "days",
   "report-time": "Report Time",
   "hostname": "Hostname",
   "area": "Area",

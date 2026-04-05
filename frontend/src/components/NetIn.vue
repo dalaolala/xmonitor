@@ -131,18 +131,39 @@ defineExpose({
 </script>
 
 <template>
-  <div class="name">{{ $t('chart-network-up') }}</div>
+  <div class="chart-title">
+    <span class="chart-dot" style="background: #db9145;"></span>
+    {{ $t('chart-network-up') }}
+  </div>
   <div ref="chartRef" class="card-bg-chart"></div>
 </template>
 
 <style scoped lang="scss">
-.name {
-  margin-bottom: 10px;
-  font-size: 14px;
+.chart-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 12px;
   font-weight: 600;
+  color: #4e5969;
+  letter-spacing: 0.3px;
+
+  .chart-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
 }
 .card-bg-chart {
   width: 100%;
-  height: 150px;
+  height: 140px;
+}
+</style>
+
+<style lang="scss">
+body[arco-theme='dark'] {
+  .chart-title { color: #888; }
 }
 </style>

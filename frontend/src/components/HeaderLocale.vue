@@ -1,8 +1,8 @@
 <template>
   <a-dropdown @select="onLocaleChange" popup-container=".locale-btn">
-    <a-button class="locale-btn" :shape="'round'">
+    <a-button class="locale-btn" shape="circle" size="small">
       <template #icon>
-        <icon-language style="font-size: 18px;" />
+        <icon-language />
       </template>
     </a-button>
     <template #content>
@@ -66,24 +66,43 @@ onMounted(() => {
 
 .locale-btn {
   border: none !important;
-  background-color: transparent !important;
-  color: #666 !important;
-  transition: all 0.2s ease;
-  
+  background: linear-gradient(135deg, rgba(114, 46, 209, 0.1) 0%, rgba(114, 46, 209, 0.05) 100%) !important;
+  color: #722ED1 !important;
+  width: 34px !important;
+  height: 34px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(114, 46, 209, 0.08);
+
   &:hover {
-    background-color: rgba(0,0,0,0.05) !important;
+    background: linear-gradient(135deg, rgba(114, 46, 209, 0.18) 0%, rgba(114, 46, 209, 0.1) 100%) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(114, 46, 209, 0.18);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+</style>
+
+<style lang="scss">
+body[arco-theme='dark'] {
+  .locale-btn {
+    background: linear-gradient(135deg, rgba(114, 46, 209, 0.15) 0%, rgba(114, 46, 209, 0.08) 100%) !important;
+    color: #B37FEB !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+
+    &:hover {
+      background: linear-gradient(135deg, rgba(114, 46, 209, 0.28) 0%, rgba(114, 46, 209, 0.15) 100%) !important;
+      box-shadow: 0 4px 12px rgba(114, 46, 209, 0.25) !important;
+    }
   }
 }
 
-body[arco-theme='dark'] {
+@media screen and (max-width: 480px) {
   .locale-btn {
-    border: none!important;
-    background-color: transparent!important;
-    color: #aaa!important;
-    
-    &:hover {
-      background-color: rgba(255,255,255,0.08) !important;
-    }
+    width: 32px !important;
+    height: 32px !important;
   }
 }
 </style>

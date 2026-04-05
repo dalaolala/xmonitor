@@ -219,10 +219,19 @@ onMounted(async () => {
 </template>
 
 <style lang="scss">
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  background-color: #f5f7fa;
-  font-family: Inter,-apple-system,BlinkMacSystemFont,Roboto,PingFang SC,Noto Sans CJK,WenQuanYi Micro Hei,Microsoft YaHei;
+  background-color: #f0f2f7;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(22, 93, 255, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 0%, rgba(114, 46, 209, 0.04) 0%, transparent 50%);
+  background-attachment: fixed;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, Roboto, PingFang SC, Noto Sans CJK, WenQuanYi Micro Hei, Microsoft YaHei;
+  min-height: 100vh;
 }
 
 a {
@@ -235,71 +244,91 @@ a {
   max-width: 1440px;
 }
 
+/* Arco Design 全局覆盖 */
 .arco-dropdown {
-  padding: 4px!important;
-  border-radius: 8px!important;
+  padding: 4px !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+
   .arco-dropdown-option {
-    border-radius: 4px !important;
+    border-radius: 6px !important;
     padding: 6px 10px;
-    line-height: 13px;
+    line-height: 14px;
     font-size: 13px;
+    transition: background 0.15s ease;
   }
+}
+
+.arco-progress-line .arco-progress-line-bar {
+  border-radius: 4px !important;
+}
+
+.arco-progress-line .arco-progress-line-bar .arco-progress-line-bar-inner {
+  border-radius: 4px !important;
+  transition: width 0.4s ease !important;
 }
 
 .monitor-card {
   position: relative;
   margin: 0 auto;
-  padding: 0 20px 20px;
+  padding: 0 20px 24px;
 }
 
+/* 暗色主题 */
 body[arco-theme='dark'] {
   background-color: #0d0d0d;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(22, 93, 255, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 0%, rgba(114, 46, 209, 0.06) 0%, transparent 50%);
 
   .arco-dropdown {
-    background-color: #1a1a1a!important;
-    border: 1px solid #2a2a2a!important;
+    background-color: #1e1e1e !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
   }
 
   .arco-modal {
     background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  }
+
+  .arco-modal-header {
+    border-bottom-color: rgba(255,255,255,0.08);
+  }
+
+  .arco-modal-footer {
+    border-top-color: rgba(255,255,255,0.08);
   }
 }
 
+/* 响应式断点 */
 @media screen and (max-width: 768px) {
   .monitor-card {
-    padding: 0 16px 16px;
+    padding: 0 12px 16px;
   }
 }
 
 @media screen and (max-width: 1920px) {
-  .max-container {
-    max-width: 1440px;
-  }
+  .max-container { max-width: 1440px; }
 }
 
 @media screen and (max-width: 1280px) {
-  .max-container {
-    max-width: 1140px;
-  }
+  .max-container { max-width: 1140px; }
 }
 
 @media screen and (max-width: 992px) {
-  .max-container {
-    max-width: 960px;
-  }
+  .max-container { max-width: 960px; }
 }
 
 @media screen and (max-width: 768px) {
-  .max-container {
-    max-width: 720px;
-  }
+  .max-container { max-width: 720px; }
 }
 
 @media screen and (max-width: 576px) {
   .max-container {
     max-width: 100%;
-    padding: 0 8px;
+    padding: 0 4px;
   }
 }
 </style>

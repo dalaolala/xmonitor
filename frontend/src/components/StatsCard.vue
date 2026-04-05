@@ -1,6 +1,6 @@
 <script setup>
 import {formatBandwithBytes, formatBytes} from "../utils/utils.js";
-import {inject} from "vue";
+import {inject, computed} from "vue";
 
 const handleChangeType = inject('handleChangeType')
 
@@ -21,56 +21,91 @@ const { stats, type } = defineProps({
   }
 })
 
+// 计算带宽比例用于进度条
+const bandwidthRatio = computed(() => {
+  const up = stats.bandwidth_up || 0
+  const down = stats.bandwidth_down || 0
+  const max = Math.max(up, down, 1)
+  return {
+    up: (up / max) * 100,
+    down: (down / max) * 100
+  }
+})
 </script>
 
 <template>
-
   <div class="hero">
     <a-row :gutter="12">
-      <a-col :span="6" :xs="24" :sm="24" :md="6" :lg="6" :sl="6">
+      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
         <div class="hero-card all" :class="type === 'all' ? 'is-active' :''" @click="handleChangeType('all')">
-          <div class="title">{{ $t('server-total') }}</div>
-          <div class="value">
-            <div class="status" style="background: #165DFF;"></div>
-            <span class="num">{{stats.total}} {{ $t('server-unit') }}</span>
+          <div class="card-icon-wrap all-icon">
+            <icon-layers />
           </div>
+          <div class="card-body">
+            <div class="title">{{ $t('server-total') }}</div>
+            <div class="num">{{stats.total}}<span class="unit">{{ $t('server-unit') }}</span></div>
+          </div>
+          <div class="card-indicator all-indicator" v-if="type === 'all'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="24" :md="6" :lg="6" :sl="6">
+      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
         <div class="hero-card online" :class="type === 'online' ? 'is-active' :''" @click="handleChangeType('online')">
-          <div class="title">{{ $t('server-online') }}</div>
-          <div class="value">
-            <div class="status" style="background: #00B42A;"></div>
-            <span class="num">{{stats.online}} {{ $t('server-unit') }}</span>
+          <div class="card-icon-wrap online-icon">
+            <icon-check-circle />
           </div>
+          <div class="card-body">
+            <div class="title">{{ $t('server-online') }}</div>
+            <div class="num online-num">{{stats.online}}<span class="unit">{{ $t('server-unit') }}</span></div>
+          </div>
+          <div class="card-indicator online-indicator" v-if="type === 'online'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="24" :md="6" :lg="6" :sl="6">
+      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
         <div class="hero-card offline" :class="type === 'offline' ? 'is-active' :''" @click="handleChangeType('offline')">
-          <div class="title">{{ $t('server-offline') }}</div>
-          <div class="value">
-            <div class="status" style="background: #F53F3F;"></div>
-            <span class="num">{{stats.offline}} {{ $t('server-unit') }}</span>
+          <div class="card-icon-wrap offline-icon">
+            <icon-close-circle />
           </div>
+          <div class="card-body">
+            <div class="title">{{ $t('server-offline') }}</div>
+            <div class="num offline-num">{{stats.offline}}<span class="unit">{{ $t('server-unit') }}</span></div>
+          </div>
+          <div class="card-indicator offline-indicator" v-if="type === 'offline'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="24" :md="6" :lg="6" :sl="6">
-        <div class="hero-card">
-          <div class="title">{{ $t('network-info') }}</div>
-          <div class="value" style="display: block;">
-            <div class="network-row">
-              <span class="label">{{ $t('traffic-info') }}</span>
-              <icon-arrow-up class="icon-up" />
-              <span class="up-val">{{formatBytes(stats.traffic_up)}}</span>
-              <icon-arrow-down class="icon-down" />
-              <span class="down-val">{{formatBytes(stats.traffic_down)}}</span>
-            </div>
-            <div class="network-row">
-              <span class="label">{{ $t('bandwidth-info') }}</span>
-              <icon-up-circle class="icon-up" />
-              <span class="up-val">{{formatBandwithBytes(stats.bandwidth_up)}}</span>
-              <icon-down-circle class="icon-down" />
-              <span class="down-val">{{formatBandwithBytes(stats.bandwidth_down)}}</span>
+      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
+        <div class="hero-card network-card">
+          <div class="card-icon-wrap net-icon">
+            <icon-wifi />
+          </div>
+          <div class="card-body network-body">
+            <div class="title">{{ $t('network-info') }}</div>
+            <div class="network-stats">
+              <!-- 上行 -->
+              <div class="stat-row">
+                <div class="stat-header">
+                  <span class="stat-icon up-icon">
+                    <icon-arrow-up />
+                  </span>
+                  <span class="stat-label">{{ $t('traffic-up') }}</span>
+                  <span class="stat-value up-value">{{ formatBandwithBytes(stats.bandwidth_up) }}</span>
+                </div>
+                <div class="stat-bar">
+                  <div class="bar-fill up-fill" :style="{ width: bandwidthRatio.up + '%' }"></div>
+                </div>
+              </div>
+              <!-- 下行 -->
+              <div class="stat-row">
+                <div class="stat-header">
+                  <span class="stat-icon down-icon">
+                    <icon-arrow-down />
+                  </span>
+                  <span class="stat-label">{{ $t('traffic-down') }}</span>
+                  <span class="stat-value down-value">{{ formatBandwithBytes(stats.bandwidth_down) }}</span>
+                </div>
+                <div class="stat-bar">
+                  <div class="bar-fill down-fill" :style="{ width: bandwidthRatio.down + '%' }"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -81,152 +116,287 @@ const { stats, type } = defineProps({
 
 <style scoped lang="scss">
 .hero {
-  margin: 12px 20px;
-  
-  // 修复 arco-row gutter 导致的负 margin 对齐问题
+  margin: 8px 20px 12px;
+
   :deep(.arco-row) {
     margin-left: 0 !important;
     margin-right: 0 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
   }
-  
+
   :deep(.arco-col) {
     padding-left: 6px !important;
     padding-right: 6px !important;
+    display: flex !important;
   }
-  
+
   :deep(.arco-col:first-child) {
     padding-left: 0 !important;
   }
-  
+
   :deep(.arco-col:last-child) {
     padding-right: 0 !important;
   }
 
   .hero-card {
+    position: relative;
     margin-bottom: 8px;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 10px;
+    padding: 14px 16px;
+    border-radius: 12px;
     background: #ffffff;
-    min-height: 56px;
+    height: 72px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+    flex: 1;
+    width: 100%;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      border-radius: 12px;
+    }
+
+    &.all::before {
+      background: linear-gradient(135deg, rgba(22,93,255,0.06) 0%, rgba(22,93,255,0.02) 100%);
+    }
+    &.online::before {
+      background: linear-gradient(135deg, rgba(0,180,42,0.06) 0%, rgba(0,180,42,0.02) 100%);
+    }
+    &.offline::before {
+      background: linear-gradient(135deg, rgba(245,63,63,0.06) 0%, rgba(245,63,63,0.02) 100%);
+    }
+
+    &.is-active::before,
+    &:hover::before {
+      opacity: 1;
+    }
 
     &.is-active,
     &:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      
-      &.all {
-        background: linear-gradient(135deg, rgba(22,93,255,0.08) 0%, rgba(22,93,255,0.04) 100%);
-      }
-
-      &.online {
-        background: linear-gradient(135deg, rgba(0,180,42,0.08) 0%, rgba(0,180,42,0.04) 100%);
-      }
-
-      &.offline {
-        background: linear-gradient(135deg, rgba(245,63,63,0.08) 0%, rgba(245,63,63,0.04) 100%);
-      }
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.09);
     }
+
+    &.network-card {
+      cursor: default;
+      height: 72px;
+      padding: 10px 14px;
+      &:hover {
+        transform: none;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      }
+      &::before { display: none; }
+    }
+  }
+
+  .card-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    border-radius: 0 0 12px 12px;
+
+    &.all-indicator { background: linear-gradient(90deg, #165DFF, #5B8AF0); }
+    &.online-indicator { background: linear-gradient(90deg, #00B42A, #54D474); }
+    &.offline-indicator { background: linear-gradient(90deg, #F53F3F, #FF7070); }
+  }
+
+  .card-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+
+    &.all-icon {
+      background: linear-gradient(135deg, rgba(22,93,255,0.12), rgba(22,93,255,0.06));
+      color: #165DFF;
+    }
+    &.online-icon {
+      background: linear-gradient(135deg, rgba(0,180,42,0.12), rgba(0,180,42,0.06));
+      color: #00B42A;
+    }
+    &.offline-icon {
+      background: linear-gradient(135deg, rgba(245,63,63,0.12), rgba(245,63,63,0.06));
+      color: #F53F3F;
+    }
+    &.net-icon {
+      background: linear-gradient(135deg, rgba(114,46,209,0.12), rgba(114,46,209,0.06));
+      color: #722ED1;
+    }
+  }
+
+  .card-body {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
 
     .title {
-      margin-top: 0;
       font-size: 13px;
       font-weight: 500;
-      margin-bottom: 6px;
-      color: #86909c;
+      color: #4e5969;
+      margin-bottom: 4px;
+      white-space: nowrap;
     }
 
-    .value {
-      display: flex;
-      align-items: center;
-      .status {
-        margin-right: 6px;
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: #333333;
-      }
+    .num {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1d2129;
+      line-height: 1;
 
-      .num {
-        font-size: 18px;
-        font-weight: 700;
-        color: #1d2129;
-      }
-      
-      .network-row {
-        display: flex;
-        align-items: center;
-        margin-bottom: 4px;
+      &.online-num { color: #00B42A; }
+      &.offline-num { color: #F53F3F; }
+
+      .unit {
         font-size: 13px;
-        
-        .label {
-          color: #86909c;
-          margin-right: 4px;
-        }
-        
-        .icon-up {
-          font-size: 12px;
-          color: #FF7D00;
-          margin-right: 2px;
-        }
-        
-        .icon-down {
-          font-size: 12px;
-          color: #722ED1;
-          margin-right: 2px;
-          margin-left: 8px;
-        }
-        
-        .up-val {
-          color: #FF7D00;
-          font-weight: 500;
-        }
-        
-        .down-val {
-          color: #722ED1;
-          font-weight: 500;
-        }
+        font-weight: 500;
+        color: #4e5969;
+        margin-left: 3px;
       }
     }
   }
-}
 
-body[arco-theme='dark'] {
-  .hero-card {
-    border: none;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    background-color: #1a1a1a;
-    color: #ffffff;
-    
-    &:hover, &.is-active {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      
-      &.all {
-        background: linear-gradient(135deg, rgba(22,93,255,0.15) 0%, rgba(22,93,255,0.08) 100%);
-      }
+  .network-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-      &.online {
-        background: linear-gradient(135deg, rgba(0,180,42,0.15) 0%, rgba(0,180,42,0.08) 100%);
-      }
-
-      &.offline {
-        background: linear-gradient(135deg, rgba(245,63,63,0.15) 0%, rgba(245,63,63,0.08) 100%);
-      }
-    }
-    
     .title {
-      color: #5c5c5c;
+      margin-bottom: 6px;
     }
-    
-    .value .num {
-      color: #ffffff;
+  }
+
+  .network-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .stat-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+
+    &.up-icon {
+      background: rgba(255, 125, 0, 0.15);
+      color: #FF7D00;
     }
-    
-    .value .network-row .label {
-      color: #5c5c5c;
+    &.down-icon {
+      background: rgba(114, 46, 209, 0.15);
+      color: #722ED1;
+    }
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: #4e5969;
+    flex: 1;
+  }
+
+  .stat-value {
+    font-size: 12px;
+    font-weight: 600;
+
+    &.up-value { color: #FF7D00; }
+    &.down-value { color: #722ED1; }
+  }
+
+  .stat-bar {
+    height: 3px;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+
+    &.up-fill {
+      background: linear-gradient(90deg, #FF7D00, #FFB84D);
+    }
+    &.down-fill {
+      background: linear-gradient(90deg, #722ED1, #A45BD4);
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+body[arco-theme='dark'] {
+  .hero {
+    .hero-card {
+      background-color: #1a1a1a;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+
+      &.all::before {
+        background: linear-gradient(135deg, rgba(22,93,255,0.15) 0%, rgba(22,93,255,0.05) 100%);
+      }
+      &.online::before {
+        background: linear-gradient(135deg, rgba(0,180,42,0.15) 0%, rgba(0,180,42,0.05) 100%);
+      }
+      &.offline::before {
+        background: linear-gradient(135deg, rgba(245,63,63,0.15) 0%, rgba(245,63,63,0.05) 100%);
+      }
+
+      &.is-active,
+      &:hover {
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      }
+
+      .card-icon-wrap {
+        &.all-icon { background: linear-gradient(135deg, rgba(22,93,255,0.2), rgba(22,93,255,0.08)); }
+        &.online-icon { background: linear-gradient(135deg, rgba(0,180,42,0.2), rgba(0,180,42,0.08)); }
+        &.offline-icon { background: linear-gradient(135deg, rgba(245,63,63,0.2), rgba(245,63,63,0.08)); }
+        &.net-icon { background: linear-gradient(135deg, rgba(114,46,209,0.2), rgba(114,46,209,0.08)); }
+      }
+
+      .card-body {
+        .title { color: #888; }
+        .num { color: #f0f0f0; }
+        .num.online-num { color: #54D474; }
+        .num.offline-num { color: #FF7070; }
+        .num .unit { color: #888; }
+      }
+
+      .stat-label { color: #888; }
+      .stat-bar { background: rgba(255,255,255,0.06); }
     }
   }
 }
@@ -234,28 +404,27 @@ body[arco-theme='dark'] {
 @media screen and (max-width: 768px) {
   .hero {
     margin: 8px 16px;
-    
+
     :deep(.arco-col) {
       padding-left: 0 !important;
       padding-right: 0 !important;
     }
-    
+
     .hero-card {
-      padding: 10px 14px;
-      min-height: 48px;
-      margin-bottom: 6px;
-      
-      .title {
-        font-size: 12px;
-        margin-bottom: 4px;
-      }
-      
-      .value .num {
+      padding: 12px 14px;
+      height: 64px;
+      gap: 10px;
+
+      .card-icon-wrap {
+        width: 36px;
+        height: 36px;
         font-size: 16px;
       }
-      
-      .value .network-row {
-        font-size: 12px;
+
+      .card-body .num { font-size: 20px; }
+
+      &.network-card {
+        padding: 10px 12px;
       }
     }
   }

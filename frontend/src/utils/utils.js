@@ -17,7 +17,7 @@ export const calculateRemainingDays = (expireTime) => {
     const expireDate = new Date(expireTime)
     const today = new Date()
     const diffTime = expireDate - today
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + '天'
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24))
 }
 
 export const formatBandwithBytes = (bytes) => {
