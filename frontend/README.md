@@ -1,31 +1,63 @@
-# X Monitor Fe
+# X Monitor Frontend
 
-![预览](https://github.com/akile-network/akile_monitor_fe/blob/main/akile_monitor.jpg?raw=true)
+X Monitor 前端项目，基于 Vue 3 + Arco Design 构建。
 
-X Monitor 前端开源项目，各位可以自行去 [Github Actions](https://github.com/akile-network/akile_monitor_fe/actions) 下载最近的构建后的文件
+## 技术栈
 
-新增加Github Actions并添加修改后的config.json文件，各位可以去自行下载，并修改config.json填写自己的后端API和WS地址
+- **Vue 3** - 渐进式 JavaScript 框架
+- **Vite 6** - 下一代前端构建工具
+- **Arco Design Vue** - 字节跳动开源 UI 组件库
+- **Highcharts** - 交互式图表库
+- **vue-i18n** - 国际化支持
 
 ## 安装
+
 ```bash
-git clone https://github.com/akile-network/akile_monitor_fe.git
-
-cd akile_monitor_fe
-
+cd frontend
 npm install
 ```
 
 ## 配置文件
+
+构建后在 `dist/config.json` 中修改：
+
+```json
+{
+  "socket": "wss://api.example.com/ws",
+  "apiURL": "https://api.example.com"
+}
 ```
-构建后config.json中进行修改
+
+| 字段 | 说明 |
+|------|------|
+| `socket` | WebSocket 地址（用于实时数据） |
+| `apiURL` | REST API 地址 |
+
+## 开发
+
+```bash
+npm run dev
 ```
 
 ## 打包
+
 ```bash
 npm run build
 ```
 
-## 开发
-```bash
-npm run dev
-```
+构建产物在 `dist/` 目录下。
+
+## 多语言支持
+
+支持以下语言：
+- 简体中文 (zh)
+- English (en)
+- 日本語 (ja)
+- 한국어 (ko)
+- Deutsch (de)
+
+语言文件位于 `src/locales/` 目录。
+
+## 项目地址
+
+- 主项目：https://github.com/dalaolala/xmonitor

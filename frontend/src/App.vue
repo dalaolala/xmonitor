@@ -619,7 +619,7 @@ a {
   .monitor-item {
     position: relative;
     margin-bottom: 8px;
-    padding: 14px 20px;
+    padding: 14px 32px;
     border-radius: 12px;
     border: none;
     display: block;
@@ -723,7 +723,7 @@ a {
     .name {
       display: inline-block;
       vertical-align: middle;
-      width: 200px;
+      width: 180px;
 
       .title {
         margin-bottom: 4px;
@@ -763,37 +763,38 @@ a {
     .platform {
       display: inline-block;
       vertical-align: top;
-      width: 100px;
+      width: 140px;
     }
 
     .cpu {
       display: inline-block;
       vertical-align: top;
-      width: 100px;
+      width: 120px;
     }
 
     .mem {
       display: inline-block;
       vertical-align: top;
-      width: 100px;
+      width: 120px;
     }
 
     .average {
       display: inline-block;
       vertical-align: top;
-      width: 160px;
+      width: 180px;
     }
 
     .network {
       display: inline-block;
       vertical-align: top;
-      width: 160px;
+      width: 180px;
     }
 
     .uptime {
       display: inline-block;
       vertical-align: middle;
-      width: 100px;
+      width: 120px;
+      white-space: nowrap;
     }
 
     .detail {
