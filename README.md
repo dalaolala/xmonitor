@@ -13,6 +13,63 @@
 - **多语言支持** - 中、英、日、韩、德五种语言
 - **主题切换** - 亮色/暗色主题
 
+## 快速安装
+
+### 一键管理脚本
+
+```bash
+wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
+```
+
+支持以下功能：
+- 安装主控前端
+- 安装主控后端
+- 卸载主控后端
+- 查看主控配置
+- 安装被控端
+- 卸载被控端
+- 查看被控配置
+
+### 主控后端安装
+
+```bash
+wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
+```
+
+### 被控端安装
+
+```bash
+wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
+```
+
+示例：
+```bash
+wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
+```
+
+### Alpine 系统被控端安装
+
+```bash
+wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
+```
+
+### 主控前端安装
+
+```bash
+wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
+```
+
+### 更新脚本
+
+```bash
+wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
+```
+
+支持更新：
+- 主控前端
+- 主控后端
+- 被控端
+
 ## 技术栈
 
 ### 后端
@@ -30,136 +87,50 @@
 - **Highcharts** - 交互式图表库
 - **vue-i18n** - 国际化支持
 
-## 系统架构
-
-```
-┌─────────────────┐     WebSocket      ┌─────────────────┐
-│   被控端        │ ──────────────────►│     主控端      │
-│  (各服务器)     │   上报监控数据      │   (服务端)      │
-└─────────────────┘                    └────────┬────────┘
-                                                │
-                          WebSocket             │ REST API
-                       ┌────────────────────────┼─────────────┐
-                       ▼                        ▼             ▼
-              ┌─────────────────┐      ┌─────────────┐  ┌─────────┐
-              │    前端面板     │      │  Telegram   │  │  Hook   │
-              └─────────────────┘      └─────────────┘  └─────────┘
-```
-
-## 快速开始
-
-### 环境要求
-
-- Go 1.19+
-- Node.js 18+
-- npm 或 yarn
-
-### 后端部署
-
-1. 配置主控端
-```bash
-cd backend
-# 编辑 config.json
-{
-    "port": 3000,
-    "secret": "your-secret-key",
-    "tgbot_token": "your-telegram-bot-token",
-    "tgbot_chat_id": "your-chat-id"
-}
-```
-
-2. 编译运行
-```bash
-go build -o monitor
-./monitor
-```
-
-### 被控端部署
-
-1. 配置被控端
-```bash
-# 编辑 client.json
-{
-    "server": "ws://your-server:3000/monitor",
-    "secret": "your-secret-key",
-    "interface": "eth0",
-    "name": "CN-Server-01"
-}
-```
-
-2. 编译运行
-```bash
-cd backend/client
-go build -o client
-./client
-```
-
-### 前端部署
-
-1. 安装依赖
-```bash
-cd frontend
-npm install
-# 或
-yarn install
-```
-
-2. 配置前端
-```bash
-# 编辑 public/config.json
-{
-    "ws": "ws://your-server:3000/ws",
-    "api": "http://your-server:3000"
-}
-```
-
-3. 开发模式
-```bash
-npm run dev
-# 或
-yarn dev
-```
-
-4. 生产构建
-```bash
-npm run build
-# 或
-yarn build
-```
-
-## Docker 部署
-
-```bash
-# 使用 Docker Compose
-docker-compose up -d
-```
-
 ## 配置说明
 
-### 主控端配置 (backend/config.json)
+### 主控端配置 (`/etc/x_monitor/config.json`)
 
 | 字段 | 说明 |
 |------|------|
-| `port` | 服务监听端口 |
-| `secret` | 认证密钥 |
-| `tgbot_token` | Telegram Bot Token |
-| `tgbot_chat_id` | Telegram Chat ID |
+| `auth_secret` | 认证密钥 |
+| `listen` | 服务监听地址（如 `:3000`） |
+| `enable_tg` | 是否启用 Telegram 通知 |
+| `tg_token` | Telegram Bot Token |
+| `tg_chat_id` | Telegram Chat ID |
+| `hook_uri` | Hook 路径 |
+| `update_uri` | 被控上报路径 |
+| `web_uri` | WebSocket 路径 |
+| `hook_token` | Hook 认证令牌 |
 
-### 被控端配置 (backend/client.json)
+### 被控端配置 (`/etc/x_monitor/client.json`)
 
 | 字段 | 说明 |
 |------|------|
-| `server` | 主控端 WebSocket 地址 |
-| `secret` | 认证密钥（需与主控端一致） |
-| `interface` | 监控网卡名称 |
+| `auth_secret` | 认证密钥（需与主控端一致） |
+| `url` | 主控端 WebSocket 地址 |
+| `net_name` | 监控网卡名称 |
 | `name` | 主机名称 |
 
-### 前端配置 (frontend/public/config.json)
+## 服务管理
 
-| 字段 | 说明 |
-|------|------|
-| `ws` | WebSocket 地址 |
-| `api` | REST API 地址 |
+### 主控端
+
+```bash
+systemctl start x_monitor    # 启动
+systemctl stop x_monitor     # 停止
+systemctl restart x_monitor  # 重启
+systemctl status x_monitor   # 查看状态
+```
+
+### 被控端
+
+```bash
+systemctl start x_client     # 启动
+systemctl stop x_client      # 停止
+systemctl restart x_client   # 重启
+systemctl status x_client    # 查看状态
+```
 
 ## Telegram Bot 命令
 
@@ -169,31 +140,13 @@ docker-compose up -d
 | `/status <name>` | 查询指定服务器状态 |
 | `/server <name>` | 查询指定服务器详情 |
 
-## 项目结构
+## 支持架构
 
-```
-xmonitor/
-├── backend/
-│   ├── main.go           # 主控端入口
-│   ├── config.go         # 配置加载
-│   ├── tgbot.go          # Telegram Bot
-│   ├── config.json       # 主控端配置
-│   ├── client.json       # 被控端配置示例
-│   └── client/
-│       ├── main.go       # 被控端入口
-│       ├── monitor.go    # 系统信息采集
-│       └── model/        # 数据模型
-├── frontend/
-│   ├── src/
-│   │   ├── App.vue       # 主应用
-│   │   ├── components/   # 组件
-│   │   └── locales/      # 多语言
-│   ├── public/
-│   │   └── config.json   # 前端配置
-│   └── package.json
-└── doc/
-    └── project-architecture.md  # 架构文档
-```
+| 架构 | 主控端 | 被控端 |
+|------|--------|--------|
+| linux/amd64 | `x_monitor-linux-amd64` | `x_client-linux-amd64` |
+| linux/arm64 | `x_monitor-linux-arm64` | `x_client-linux-arm64` |
+| darwin/amd64 | `x_monitor-darwin-amd64` | `x_client-darwin-amd64` |
 
 ## 监控指标
 
@@ -207,27 +160,9 @@ xmonitor/
 | 系统负载 | Load1 / Load5 / Load15 |
 | 运行时间 | 系统启动时长 |
 
-## 开发
-
-### 本地调试
+## 本地开发
 
 参考 [本地调试指南](doc/local-debug-guide.md)
-
-### 构建发布
-
-```bash
-# 后端
-cd backend
-go build -o monitor
-
-# 被控端
-cd backend/client
-go build -o client
-
-# 前端
-cd frontend
-npm run build
-```
 
 ## 许可证
 
