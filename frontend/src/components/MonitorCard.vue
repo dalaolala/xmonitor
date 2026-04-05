@@ -664,6 +664,8 @@ body[arco-theme='dark'] {
       .name .host-title .host-name { color: #f0f0f0; }
       .name .uptime-text { color: #777; }
 
+      .platform .platform-val { color: #888; }
+
       .col .col-label { color: #666; }
       .col .col-value { color: #e0e0e0; }
       .col .col-value.success { color: #54D474; }
