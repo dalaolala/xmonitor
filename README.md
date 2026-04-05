@@ -233,6 +233,10 @@ npm run build
 
 [MIT License](LICENSE)
 
+## 致谢
+
+本项目代码参考了 [akile_monitor](https://github.com/akile-network/akile_monitor)，在此表示感谢。
+
 ## 作者
 
 X Monitor Team
