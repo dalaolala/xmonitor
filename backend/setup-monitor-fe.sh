@@ -45,12 +45,12 @@ fi
 
 # 创建目录
 echo "创建安装目录..."
-mkdir -p /etc/ak_monitor/frontend
-cd /etc/ak_monitor/frontend
+mkdir -p /etc/x_monitor/frontend
+cd /etc/x_monitor/frontend
 
 # 下载并解压前端文件
 echo "正在下载前端包..."
-wget -O frontend.zip https://github.com/akile-network/akile_monitor_fe/releases/latest/download/akile_monitor_fe.zip
+wget -O frontend.zip https://github.com/dalaolala/xmonitor/releases/latest/download/frontend.zip
 echo "正在解压文件..."
 unzip -o frontend.zip
 rm frontend.zip
@@ -68,7 +68,7 @@ fi
 
 # 创建前端配置文件
 echo "正在配置前端..."
-cat > /etc/ak_monitor/frontend/config.json <<EOF
+cat > /etc/x_monitor/frontend/config.json <<EOF
 {
   "socket": "wss://${backend_domain}/ws",
   "apiURL": "https://${backend_domain}"
@@ -79,7 +79,7 @@ EOF
 echo "正在配置 Caddy 服务器..."
 cat > /etc/caddy/Caddyfile <<EOF
 ${frontend_domain} {
-    root * /etc/ak_monitor/frontend
+    root * /etc/x_monitor/frontend
     file_server
     encode gzip
     try_files {path} /index.html
@@ -93,11 +93,11 @@ EOF
 
 # 设置适当的权限
 if [ "$OS" = "centos" ] || [ "$OS" = "rhel" ]; then
-    chown -R caddy:caddy /etc/ak_monitor/frontend
+    chown -R caddy:caddy /etc/x_monitor/frontend
 else
-    chown -R www-data:www-data /etc/ak_monitor/frontend
+    chown -R www-data:www-data /etc/x_monitor/frontend
 fi
-chmod -R 755 /etc/ak_monitor/frontend
+chmod -R 755 /etc/x_monitor/frontend
 
 # 配置防火墙
 echo "正在配置防火墙..."
@@ -130,7 +130,7 @@ systemctl status caddy
 if [ "$OS" = "centos" ] || [ "$OS" = "rhel" ]; then
     echo -e "\nCentOS/RHEL 系统的重要提示："
     echo "1. 如果启用了 SELinux，您可能需要运行以下命令："
-    echo "   semanage fcontext -a -t httpd_sys_content_t \"/etc/ak_monitor/frontend(/.*)?\" "
-    echo "   restorecon -Rv /etc/ak_monitor/frontend"
+    echo "   semanage fcontext -a -t httpd_sys_content_t \"/etc/x_monitor/frontend(/.*)?\" "
+    echo "   restorecon -Rv /etc/x_monitor/frontend"
     echo "2. 如果使用云服务器，请确保在安全组中开放 80 和 443 端口"
 fi

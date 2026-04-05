@@ -6,34 +6,34 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # Stop existing service if running
-systemctl stop ak_monitor
+systemctl stop x_monitor
 
 # Get system architecture
 ARCH=$(uname -m)
-MONITOR_FILE="akile_monitor-linux-amd64"
+MONITOR_FILE="x_monitor-linux-amd64"
 
 # Set appropriate monitor file based on architecture
 if [ "$ARCH" = "x86_64" ]; then
-    MONITOR_FILE="akile_monitor-linux-amd64"
+    MONITOR_FILE="x_monitor-linux-amd64"
 elif [ "$ARCH" = "aarch64" ]; then
-    MONITOR_FILE="akile_monitor-linux-arm64"
+    MONITOR_FILE="x_monitor-linux-arm64"
 elif [ "$ARCH" = "x86_64" ] && [ "$(uname -s)" = "Darwin" ]; then
-    MONITOR_FILE="akile_monitor-darwin-amd64"
+    MONITOR_FILE="x_monitor-darwin-amd64"
 else
     echo "Unsupported architecture: $ARCH"
     exit 1
 fi
 
 # Create directory and change to it
-mkdir -p /etc/ak_monitor/
-cd /etc/ak_monitor/
+mkdir -p /etc/x_monitor/
+cd /etc/x_monitor/
 
 # Download monitor
-wget -O ak_monitor https://github.com/akile-network/akile_monitor/releases/latest/download/$MONITOR_FILE
-chmod 777 ak_monitor
+wget -O x_monitor https://github.com/dalaolala/xmonitor/releases/latest/download/$MONITOR_FILE
+chmod 777 x_monitor
 
 # Create service file
-cat > /etc/systemd/system/ak_monitor.service <<EOF
+cat > /etc/systemd/system/x_monitor.service <<EOF
 [Unit]
 Description=X Monitor Service
 After=network.target nss-lookup.target
@@ -47,8 +47,8 @@ LimitAS=infinity
 LimitRSS=infinity
 LimitCORE=infinity
 LimitNOFILE=999999999
-WorkingDirectory=/etc/ak_monitor/
-ExecStart=/etc/ak_monitor/ak_monitor
+WorkingDirectory=/etc/x_monitor/
+ExecStart=/etc/x_monitor/x_monitor
 Restart=on-failure
 RestartSec=10
 
@@ -81,7 +81,7 @@ while true; do
 done
 
 # Create config file
-cat > /etc/ak_monitor/config.json <<EOF
+cat > /etc/x_monitor/config.json <<EOF
 {
   "auth_secret": "${auth_secret}",
   "listen": ":${listen}",
@@ -96,13 +96,13 @@ cat > /etc/ak_monitor/config.json <<EOF
 EOF
 
 # Set permissions
-chmod 644 /etc/ak_monitor/config.json
-chmod 644 /etc/systemd/system/ak_monitor.service
+chmod 644 /etc/x_monitor/config.json
+chmod 644 /etc/systemd/system/x_monitor.service
 
 # Start service
 systemctl daemon-reload
-systemctl enable ak_monitor.service
-systemctl start ak_monitor.service
+systemctl enable x_monitor.service
+systemctl start x_monitor.service
 
 echo "Installation complete! Service status:"
-systemctl status ak_monitor.service
+systemctl status x_monitor.service

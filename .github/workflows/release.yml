@@ -1,0 +1,153 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
+      - name: Build Monitor (linux-amd64)
+        run: |
+          cd backend
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o x_monitor-linux-amd64 .
+
+      - name: Build Monitor (linux-arm64)
+        run: |
+          cd backend
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o x_monitor-linux-arm64 .
+
+      - name: Build Monitor (darwin-amd64)
+        run: |
+          cd backend
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o x_monitor-darwin-amd64 .
+
+      - name: Build Client (linux-amd64)
+        run: |
+          cd backend/client
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ../../x_client-linux-amd64 .
+
+      - name: Build Client (linux-arm64)
+        run: |
+          cd backend/client
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o ../../x_client-linux-arm64 .
+
+      - name: Build Client (darwin-amd64)
+        run: |
+          cd backend/client
+          CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ../../x_client-darwin-amd64 .
+
+      - name: Upload Monitor artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: monitor-binaries
+          path: |
+            x_monitor-*
+
+      - name: Upload Client artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-binaries
+          path: |
+            x_client-*
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Create frontend.zip
+        run: |
+          cd frontend/dist
+          zip -r ../../frontend.zip .
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend
+          path: frontend.zip
+
+  release:
+    needs: [build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Monitor binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: monitor-binaries
+          path: ./binaries
+
+      - name: Download Client binaries
+        uses: actions/download-artifact@v4
+        with:
+          name: client-binaries
+          path: ./binaries
+
+      - name: Download Frontend
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend
+          path: .
+
+      - name: Get version
+        id: get_version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.VERSION }}
+          name: Release ${{ steps.get_version.outputs.VERSION }}
+          draft: false
+          prerelease: false
+          files: |
+            binaries/x_monitor-linux-amd64
+            binaries/x_monitor-linux-arm64
+            binaries/x_monitor-darwin-amd64
+            binaries/x_client-linux-amd64
+            binaries/x_client-linux-arm64
+            binaries/x_client-darwin-amd64
+            frontend.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

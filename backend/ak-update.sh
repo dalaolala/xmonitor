@@ -6,18 +6,18 @@ fi
 
 # 判断系统架构
 ARCH=$(uname -m)
-MONITOR_FILE="akile_monitor-linux-amd64"
-CLIENT_FILE="akile_client-linux-amd64"
+MONITOR_FILE="x_monitor-linux-amd64"
+CLIENT_FILE="x_client-linux-amd64"
 
 if [ "$ARCH" = "x86_64" ]; then
-    MONITOR_FILE="akile_monitor-linux-amd64"
-    CLIENT_FILE="akile_client-linux-amd64"
+    MONITOR_FILE="x_monitor-linux-amd64"
+    CLIENT_FILE="x_client-linux-amd64"
 elif [ "$ARCH" = "aarch64" ]; then
-    MONITOR_FILE="akile_monitor-linux-arm64"
-    CLIENT_FILE="akile_client-linux-arm64"
+    MONITOR_FILE="x_monitor-linux-arm64"
+    CLIENT_FILE="x_client-linux-arm64"
 elif [ "$ARCH" = "x86_64" ] && [ "$(uname -s)" = "Darwin" ]; then
-    MONITOR_FILE="akile_monitor-darwin-amd64"
-    CLIENT_FILE="akile_client-darwin-amd64"
+    MONITOR_FILE="x_monitor-darwin-amd64"
+    CLIENT_FILE="x_client-darwin-amd64"
 else
     echo "不支持的系统架构: $ARCH"
     exit 1
@@ -27,12 +27,12 @@ function update_monitor_fe() {
     echo "正在更新主控前端..."
     
     # 检查是否安装了主控前端
-    if [ ! -d "/etc/ak_monitor/frontend" ]; then
+    if [ ! -d "/etc/x_monitor/frontend" ]; then
         echo "未检测到主控前端安装，请先安装主控前端"
         return
     fi
     
-    cd /etc/ak_monitor/frontend
+    cd /etc/x_monitor/frontend
     
     # 创建临时目录
     echo "创建临时目录..."
@@ -41,14 +41,14 @@ function update_monitor_fe() {
     # 下载到临时目录
     echo "下载新版本..."
     cd "$TEMP_DIR"
-    wget -O frontend.zip https://github.com/akile-network/akile_monitor_fe/releases/download/v.0.0.2/akile_monitor_fe.zip
+    wget -O frontend.zip https://github.com/dalaolala/xmonitor/releases/latest/download/frontend.zip
     
     # 备份当前版本
     echo "备份当前版本..."
     timestamp=$(date +%Y%m%d_%H%M%S)
-    mkdir -p /etc/ak_monitor/backup
-    cd /etc/ak_monitor/frontend
-    tar -czf "/etc/ak_monitor/backup/frontend_${timestamp}.tar.gz" ./*
+    mkdir -p /etc/x_monitor/backup
+    cd /etc/x_monitor/frontend
+    tar -czf "/etc/x_monitor/backup/frontend_${timestamp}.tar.gz" ./*
     
     # 在临时目录解压并处理
     echo "解压新版本..."
@@ -64,7 +64,7 @@ function update_monitor_fe() {
     
     # 复制新文件到目标目录，排除 config.json
     echo "更新文件..."
-    cp -rf "$TEMP_DIR"/* /etc/ak_monitor/frontend/
+    cp -rf "$TEMP_DIR"/* /etc/x_monitor/frontend/
     
     # 清理临时目录
     echo "清理临时文件..."
@@ -81,28 +81,28 @@ function update_monitor() {
     echo "正在更新主控后端..."
     
     # 检查是否安装了主控后端
-    if [ ! -f "/etc/ak_monitor/config.json" ]; then
+    if [ ! -f "/etc/x_monitor/config.json" ]; then
         echo "未检测到主控后端安装，请先安装主控后端"
         return
     fi
     
     # 停止服务
-    systemctl stop ak_monitor
+    systemctl stop x_monitor
     
-    cd /etc/ak_monitor/
+    cd /etc/x_monitor/
     
     # 备份当前版本
     echo "备份当前版本..."
     timestamp=$(date +%Y%m%d_%H%M%S)
-    cp ak_monitor "ak_monitor.backup.${timestamp}"
+    cp x_monitor "x_monitor.backup.${timestamp}"
     
     # 下载新版本
     echo "下载新版本..."
-    wget -O ak_monitor https://github.com/akile-network/akile_monitor/releases/latest/download/$MONITOR_FILE
-    chmod 777 ak_monitor
+    wget -O x_monitor https://github.com/dalaolala/xmonitor/releases/latest/download/$MONITOR_FILE
+    chmod 777 x_monitor
     
     # 重启服务
-    systemctl start ak_monitor
+    systemctl start x_monitor
     
     echo "主控后端更新完成！"
 }
@@ -111,15 +111,15 @@ function update_client() {
     echo "正在更新被控..."
     
     # 检查是否安装了被控
-    if [ ! -f "/etc/ak_monitor/client.json" ]; then
+    if [ ! -f "/etc/x_monitor/client.json" ]; then
         echo "未检测到被控安装，请先安装被控"
         return
     fi
     
     # 停止服务
-    systemctl stop ak_client
+    systemctl stop x_client
     
-    cd /etc/ak_monitor/
+    cd /etc/x_monitor/
     
     # 备份当前版本
     echo "备份当前版本..."
@@ -128,11 +128,11 @@ function update_client() {
     
     # 下载新版本
     echo "下载新版本..."
-    wget -O client https://github.com/akile-network/akile_monitor/releases/latest/download/$CLIENT_FILE
+    wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
     chmod 777 client
     
     # 重启服务
-    systemctl start ak_client
+    systemctl start x_client
     
     echo "被控更新完成！"
 }

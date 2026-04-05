@@ -16,7 +16,7 @@ else
 fi
 
 # Stop existing service if running
-systemctl stop ak_client
+systemctl stop x_client
 
 # Function to detect main network interface
 get_main_interface() {
@@ -101,15 +101,15 @@ fi
 
 # Get system architecture
 ARCH=$(uname -m)
-CLIENT_FILE="akile_client-linux-amd64"
+CLIENT_FILE="x_client-linux-amd64"
 
 # Set appropriate client file based on architecture
 if [ "$ARCH" = "x86_64" ]; then
- CLIENT_FILE="akile_client-linux-amd64"
+ CLIENT_FILE="x_client-linux-amd64"
 elif [ "$ARCH" = "aarch64" ]; then
- CLIENT_FILE="akile_client-linux-arm64"
+ CLIENT_FILE="x_client-linux-arm64"
 elif [ "$ARCH" = "x86_64" ] && [ "$(uname -s)" = "Darwin" ]; then
- CLIENT_FILE="akile_client-darwin-amd64"
+ CLIENT_FILE="x_client-darwin-amd64"
 else
  echo "Unsupported architecture: $ARCH"
  exit 1
@@ -125,15 +125,15 @@ net_name=$(get_main_interface)
 echo "Using network interface: $net_name"
 
 # Create directory and change to it
-mkdir -p /etc/ak_monitor/
-cd /etc/ak_monitor/
+mkdir -p /etc/x_monitor/
+cd /etc/x_monitor/
 
 # Download client
-wget -O client https://github.com/akile-network/akile_monitor/releases/latest/download/$CLIENT_FILE
+wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
 chmod 777 client
 
 # Create systemd service file
-cat > /etc/systemd/system/ak_client.service << 'EOF'
+cat > /etc/systemd/system/x_client.service << 'EOF'
 [Unit]
 Description=X Monitor Service
 After=network.target nss-lookup.target
@@ -147,8 +147,8 @@ LimitAS=infinity
 LimitRSS=infinity
 LimitCORE=infinity
 LimitNOFILE=999999999
-WorkingDirectory=/etc/ak_monitor/
-ExecStart=/etc/ak_monitor/client
+WorkingDirectory=/etc/x_monitor/
+ExecStart=/etc/x_monitor/client
 Restart=always
 RestartSec=1
 
@@ -157,7 +157,7 @@ WantedBy=multi-user.target
 EOF
 
 # Create client configuration
-cat > /etc/ak_monitor/client.json << EOF
+cat > /etc/x_monitor/client.json << EOF
 {
 "auth_secret": "${auth_secret}",
 "url": "${url}",
@@ -167,13 +167,13 @@ cat > /etc/ak_monitor/client.json << EOF
 EOF
 
 # Set proper permissions
-chmod 644 /etc/ak_monitor/client.json
-chmod 644 /etc/systemd/system/ak_client.service
+chmod 644 /etc/x_monitor/client.json
+chmod 644 /etc/systemd/system/x_client.service
 
 # Reload systemd and enable service
 systemctl daemon-reload
-systemctl enable ak_client.service
-systemctl start ak_client.service
+systemctl enable x_client.service
+systemctl start x_client.service
 
 echo "Installation complete! Service status:"
-systemctl status ak_client.service
+systemctl status x_client.service

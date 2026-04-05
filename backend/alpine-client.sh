@@ -14,7 +14,7 @@ else
 fi
 
 # Stop existing service if running
-rc-service ak_client stop
+rc-service x_client stop
 
 # Function to detect main network interface
 get_main_interface() {
@@ -97,15 +97,15 @@ fi
 
 # Get system architecture
 ARCH=$(uname -m)
-CLIENT_FILE="akile_client-linux-amd64"
+CLIENT_FILE="x_client-linux-amd64"
 
 # Set appropriate client file based on architecture
 if [ "$ARCH" = "x86_64" ]; then
- CLIENT_FILE="akile_client-linux-amd64"
+ CLIENT_FILE="x_client-linux-amd64"
 elif [ "$ARCH" = "aarch64" ]; then
- CLIENT_FILE="akile_client-linux-arm64"
+ CLIENT_FILE="x_client-linux-arm64"
 elif [ "$ARCH" = "x86_64" ] && [ "$(uname -s)" = "Darwin" ]; then
- CLIENT_FILE="akile_client-darwin-amd64"
+ CLIENT_FILE="x_client-darwin-amd64"
 else
  echo "Unsupported architecture: $ARCH"
  exit 1
@@ -121,22 +121,22 @@ net_name=$(get_main_interface)
 echo "Using network interface: $net_name"
 
 # Create directory and change to it
-mkdir -p /etc/ak_monitor/
-cd /etc/ak_monitor/
+mkdir -p /etc/x_monitor/
+cd /etc/x_monitor/
 
 # Download client
-wget -O client https://github.com/akile-network/akile_monitor/releases/latest/download/$CLIENT_FILE
+wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
 chmod 777 client
 
 # Create openrc service file
-cat > /etc/init.d/ak_client << 'EOF'
+cat > /etc/init.d/x_client << 'EOF'
 #!/sbin/openrc-run
 
 # 定义服务的名称变量
 name="X Monitor Service"
 
 # 定义服务的执行路径，将使用该路径启动服务程序
-command="/etc/ak_monitor/client"
+command="/etc/x_monitor/client"
 
 # 定义服务的启动参数
 # command_args="--param1 value1 --param2 value2"
@@ -163,7 +163,7 @@ start() {
     # 打印启动消息
     ebegin "Starting ${name}"
     # 切换到工作目录
-    cd /etc/ak_monitor/
+    cd /etc/x_monitor/
     # 使用 start-stop-daemon 命令启动服务
     start-stop-daemon --start --exec ${command}
     eend $? # 输出启动操作的结果状态
@@ -193,7 +193,7 @@ restart() {
 EOF
 
 # Create client configuration
-cat > /etc/ak_monitor/client.json << EOF
+cat > /etc/x_monitor/client.json << EOF
 {
 "auth_secret": "${auth_secret}",
 "url": "${url}",
@@ -203,14 +203,14 @@ cat > /etc/ak_monitor/client.json << EOF
 EOF
 
 # Set proper permissions
-chmod 644 /etc/ak_monitor/client.json
-chmod 755 /etc/init.d/ak_client
+chmod 644 /etc/x_monitor/client.json
+chmod 755 /etc/init.d/x_client
 
 # Add service to default runlevel
-rc-update add ak_client default
+rc-update add x_client default
 
 # Start service
-rc-service ak_client start
+rc-service x_client start
 
 echo "Installation complete! Service status:"
-rc-service ak_client status
+rc-service x_client status

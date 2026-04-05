@@ -5,29 +5,29 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 function install_monitor_fe() {
- wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/akile-network/akile_monitor/refs/heads/main/setup-monitor-fe.sh"
+ wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor-fe.sh"
  chmod +x setup-monitor-fe.sh
  ./setup-monitor-fe.sh
 }
 
 function install_monitor() {
- wget -O setup-monitor.sh "https://raw.githubusercontent.com/akile-network/akile_monitor/refs/heads/main/setup-monitor.sh"
+ wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor.sh"
  chmod +x setup-monitor.sh
  ./setup-monitor.sh
 }
 
 function uninstall_monitor() {
- systemctl stop ak_monitor
- systemctl disable ak_monitor
- rm -f /etc/systemd/system/ak_monitor.service
- rm -rf /etc/ak_monitor
+ systemctl stop x_monitor
+ systemctl disable x_monitor
+ rm -f /etc/systemd/system/x_monitor.service
+ rm -rf /etc/x_monitor
  systemctl daemon-reload
  echo "Monitor backend uninstalled"
 }
 
 function view_monitor_config() {
- if [ -f /etc/ak_monitor/config.json ]; then
-     cat /etc/ak_monitor/config.json
+ if [ -f /etc/x_monitor/config.json ]; then
+     cat /etc/x_monitor/config.json
  else
      echo "Monitor config not found"
  fi
@@ -38,23 +38,23 @@ function install_client() {
  read -p "Enter auth_secret: " auth_secret
  read -p "Enter URL: " url
  read -p "Enter name: " name
- wget -O setup-client.sh "https://raw.githubusercontent.com/akile-network/akile_monitor/refs/heads/main/setup-client.sh"
+ wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-client.sh"
  chmod +x setup-client.sh
  ./setup-client.sh "$auth_secret" "$url" "$name"
 }
 
 function uninstall_client() {
- systemctl stop ak_client
- systemctl disable ak_client
- rm -f /etc/systemd/system/ak_client.service
- rm -rf /etc/ak_monitor
+ systemctl stop x_client
+ systemctl disable x_client
+ rm -f /etc/systemd/system/x_client.service
+ rm -rf /etc/x_monitor
  systemctl daemon-reload
  echo "Client uninstalled"
 }
 
 function view_client_config() {
- if [ -f /etc/ak_monitor/client.json ]; then
-     cat /etc/ak_monitor/client.json
+ if [ -f /etc/x_monitor/client.json ]; then
+     cat /etc/x_monitor/client.json
  else
      echo "Client config not found"
  fi
