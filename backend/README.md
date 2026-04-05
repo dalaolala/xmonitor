@@ -24,7 +24,7 @@
 ### 一键管理脚本
 
 ```
-wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
+wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
 ```
 
 支持以下功能：
@@ -39,36 +39,36 @@ wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/h
 ### 主控后端安装
 
 ```
-wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
+wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
 ```
 
 ### 被控端安装
 
 ```
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
+wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
 ```
 
 示例：
 ```
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
+wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
 ```
 
 ### Alpine 系统被控端安装
 
 ```
-wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
+wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
 ```
 
 ### 主控前端安装
 
 ```
-wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
+wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
 ```
 
 ### 更新脚本
 
 ```
-wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
+wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
 ```
 
 支持更新：
@@ -168,4 +168,4 @@ go build -o x_client
 ## 项目地址
 
 - 主项目：https://github.com/dalaolala/xmonitor
-- 前端项目：https://github.com/dalaolala/xmonitor/tree/main/frontend
+- 前端项目：https://github.com/dalaolala/xmonitor/tree/master/frontend

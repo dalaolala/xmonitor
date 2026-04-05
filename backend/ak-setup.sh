@@ -5,13 +5,13 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 function install_monitor_fe() {
- wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor-fe.sh"
+ wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh"
  chmod +x setup-monitor-fe.sh
  ./setup-monitor-fe.sh
 }
 
 function install_monitor() {
- wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-monitor.sh"
+ wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh"
  chmod +x setup-monitor.sh
  ./setup-monitor.sh
 }
@@ -38,7 +38,7 @@ function install_client() {
  read -p "Enter auth_secret: " auth_secret
  read -p "Enter URL: " url
  read -p "Enter name: " name
- wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/main/backend/setup-client.sh"
+ wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh"
  chmod +x setup-client.sh
  ./setup-client.sh "$auth_secret" "$url" "$name"
 }
