@@ -35,7 +35,7 @@ const bandwidthRatio = computed(() => {
 
 <template>
   <div class="hero">
-    <a-row :gutter="12">
+    <a-row :gutter="0">
       <a-col :span="6" :xs="12" :sm="12" :md="6" :lg="6">
         <div class="hero-card all" :class="type === 'all' ? 'is-active' :''" @click="handleChangeType('all')">
           <div class="card-icon-wrap all-icon">
@@ -126,22 +126,19 @@ const bandwidthRatio = computed(() => {
   }
 
   :deep(.arco-col) {
-    padding-left: 6px !important;
-    padding-right: 6px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
     display: flex !important;
   }
 
-  :deep(.arco-col:first-child) {
-    padding-left: 0 !important;
-  }
-
-  :deep(.arco-col:last-child) {
-    padding-right: 0 !important;
+  :deep(.arco-col:last-child) .hero-card {
+    margin-right: 0;
   }
 
   .hero-card {
     position: relative;
     margin-bottom: 8px;
+    margin-right: 12px;
     padding: 14px 16px;
     border-radius: 12px;
     background: #ffffff;
@@ -405,31 +402,15 @@ body[arco-theme='dark'] {
   .hero {
     margin: 8px 12px;
 
-    :deep(.arco-col) {
-      padding-left: 4px !important;
-      padding-right: 4px !important;
-    }
-
-    :deep(.arco-col:first-child) {
-      padding-left: 0 !important;
-    }
-
-    :deep(.arco-col:nth-child(2)) {
-      padding-right: 0 !important;
-    }
-
-    :deep(.arco-col:nth-child(3)) {
-      padding-left: 0 !important;
-    }
-
-    :deep(.arco-col:nth-child(4)) {
-      padding-right: 0 !important;
+    .arco-col:nth-child(2n) .hero-card {
+      margin-right: 0;
     }
 
     .hero-card {
       padding: 10px 12px;
       height: 58px;
       gap: 8px;
+      margin-right: 8px;
       border-radius: 10px;
 
       .card-icon-wrap {
@@ -482,15 +463,15 @@ body[arco-theme='dark'] {
   .hero {
     margin: 6px 10px;
 
-    :deep(.arco-col) {
-      padding-left: 3px !important;
-      padding-right: 3px !important;
+    .arco-col:nth-child(2n) .hero-card {
+      margin-right: 0;
     }
 
     .hero-card {
       padding: 8px 10px;
       height: 52px;
       gap: 6px;
+      margin-right: 6px;
       border-radius: 8px;
 
       .card-icon-wrap {
