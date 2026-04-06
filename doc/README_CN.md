@@ -1,6 +1,8 @@
 # X Monitor
 
-简体中文 | [English](README.md) | [日本語](README_JA.md) | [한국어](README_KO.md)
+简体中文 | [English](../README.md) | [日本語](README_JA.md) | [한국어](README_KO.md)
+
+![X Monitor 预览](https://img.imgdd.com/67e21861-9a53-43ff-a0e0-246ecbb40770.png)
 
 一个轻量级、高性能的服务器监控系统，支持多服务器集中管理、实时状态监控和 Telegram Bot 通知。
 
@@ -164,7 +166,7 @@ systemctl status x_client    # 查看状态
 
 ## 本地开发
 
-参考 [本地调试指南](doc/local-debug-guide.md)
+参考 [本地调试指南](local-debug-guide.md)
 
 ## 许可证
 

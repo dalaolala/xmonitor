@@ -1,6 +1,8 @@
 # X Monitor
 
-[简体中文](README_CN.md) | English | [日本語](README_JA.md) | [한국어](README_KO.md)
+[简体中文](doc/README_CN.md) | English | [日本語](doc/README_JA.md) | [한국어](doc/README_KO.md)
+
+![X Monitor Preview](https://img.imgdd.com/67e21861-9a53-43ff-a0e0-246ecbb40770.png)
 
 A lightweight, high-performance server monitoring system with multi-server management, real-time status monitoring, and Telegram Bot notifications.
 

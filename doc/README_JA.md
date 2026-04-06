@@ -1,6 +1,8 @@
 # X Monitor
 
-[简体中文](README_CN.md) | [English](README.md) | 日本語 | [한국어](README_KO.md)
+[简体中文](README_CN.md) | [English](../README.md) | 日本語 | [한국어](README_KO.md)
+
+![X Monitor プレビュー](https://img.imgdd.com/67e21861-9a53-43ff-a0e0-246ecbb40770.png)
 
 軽量で高性能なサーバー監視システム。複数サーバーの一元管理、リアルタイムステータス監視、Telegram Bot通知をサポート。
 
@@ -164,7 +166,7 @@ systemctl status x_client    # ステータス確認
 
 ## ローカル開発
 
-[ローカルデバッグガイド](doc/local-debug-guide.md)を参照
+[ローカルデバッグガイド](local-debug-guide.md)を参照
 
 ## ライセンス
 

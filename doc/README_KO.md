@@ -1,6 +1,8 @@
 # X Monitor
 
-[简体中文](README_CN.md) | [English](README.md) | [日本語](README_JA.md) | 한국어
+[简体中文](README_CN.md) | [English](../README.md) | [日本語](README_JA.md) | 한국어
+
+![X Monitor 미리보기](https://img.imgdd.com/67e21861-9a53-43ff-a0e0-246ecbb40770.png)
 
 가볍고 고성능인 서버 모니터링 시스템으로, 다중 서버 관리, 실시간 상태 모니터링, Telegram Bot 알림을 지원합니다.
 
@@ -164,7 +166,7 @@ systemctl status x_client    # 상태 확인
 
 ## 로컬 개발
 
-[로컬 디버그 가이드](doc/local-debug-guide.md) 참조
+[로컬 디버그 가이드](local-debug-guide.md) 참조
 
 ## 라이선스
 
