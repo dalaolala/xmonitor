@@ -36,7 +36,7 @@ const bandwidthRatio = computed(() => {
 <template>
   <div class="hero">
     <a-row :gutter="12">
-      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
+      <a-col :span="6" :xs="12" :sm="12" :md="6" :lg="6">
         <div class="hero-card all" :class="type === 'all' ? 'is-active' :''" @click="handleChangeType('all')">
           <div class="card-icon-wrap all-icon">
             <icon-layers />
@@ -48,7 +48,7 @@ const bandwidthRatio = computed(() => {
           <div class="card-indicator all-indicator" v-if="type === 'all'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
+      <a-col :span="6" :xs="12" :sm="12" :md="6" :lg="6">
         <div class="hero-card online" :class="type === 'online' ? 'is-active' :''" @click="handleChangeType('online')">
           <div class="card-icon-wrap online-icon">
             <icon-check-circle />
@@ -60,7 +60,7 @@ const bandwidthRatio = computed(() => {
           <div class="card-indicator online-indicator" v-if="type === 'online'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
+      <a-col :span="6" :xs="12" :sm="12" :md="6" :lg="6">
         <div class="hero-card offline" :class="type === 'offline' ? 'is-active' :''" @click="handleChangeType('offline')">
           <div class="card-icon-wrap offline-icon">
             <icon-close-circle />
@@ -72,7 +72,7 @@ const bandwidthRatio = computed(() => {
           <div class="card-indicator offline-indicator" v-if="type === 'offline'"></div>
         </div>
       </a-col>
-      <a-col :span="6" :xs="24" :sm="12" :md="6" :lg="6">
+      <a-col :span="6" :xs="12" :sm="12" :md="6" :lg="6">
         <div class="hero-card network-card">
           <div class="card-icon-wrap net-icon">
             <icon-wifi />
@@ -403,28 +403,131 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 768px) {
   .hero {
-    margin: 8px 16px;
+    margin: 8px 12px;
 
     :deep(.arco-col) {
+      padding-left: 4px !important;
+      padding-right: 4px !important;
+    }
+
+    :deep(.arco-col:first-child) {
       padding-left: 0 !important;
+    }
+
+    :deep(.arco-col:nth-child(2)) {
+      padding-right: 0 !important;
+    }
+
+    :deep(.arco-col:nth-child(3)) {
+      padding-left: 0 !important;
+    }
+
+    :deep(.arco-col:nth-child(4)) {
       padding-right: 0 !important;
     }
 
     .hero-card {
-      padding: 12px 14px;
-      height: 64px;
-      gap: 10px;
+      padding: 10px 12px;
+      height: 58px;
+      gap: 8px;
+      border-radius: 10px;
 
       .card-icon-wrap {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+        width: 32px;
+        height: 32px;
+        font-size: 15px;
+        border-radius: 8px;
       }
 
-      .card-body .num { font-size: 20px; }
+      .card-body {
+        .title { font-size: 12px; margin-bottom: 2px; }
+        .num { font-size: 18px; }
+        .unit { font-size: 11px; }
+      }
 
       &.network-card {
-        padding: 10px 12px;
+        height: 58px;
+        padding: 8px 10px;
+
+        .card-icon-wrap {
+          width: 28px;
+          height: 28px;
+          font-size: 13px;
+        }
+
+        .network-body {
+          .title { font-size: 11px; margin-bottom: 4px; }
+        }
+
+        .network-stats { gap: 3px; }
+
+        .stat-header { gap: 3px; }
+
+        .stat-icon {
+          width: 12px;
+          height: 12px;
+          font-size: 9px;
+        }
+
+        .stat-label { font-size: 10px; }
+        .stat-value { font-size: 11px; }
+        .stat-bar { height: 2px; }
+      }
+    }
+  }
+}
+
+/* 超小屏幕优化 */
+@media screen and (max-width: 480px) {
+  .hero {
+    margin: 6px 10px;
+
+    :deep(.arco-col) {
+      padding-left: 3px !important;
+      padding-right: 3px !important;
+    }
+
+    .hero-card {
+      padding: 8px 10px;
+      height: 52px;
+      gap: 6px;
+      border-radius: 8px;
+
+      .card-icon-wrap {
+        width: 28px;
+        height: 28px;
+        font-size: 13px;
+        border-radius: 7px;
+      }
+
+      .card-body {
+        .title { font-size: 11px; margin-bottom: 1px; }
+        .num { font-size: 16px; }
+        .unit { font-size: 10px; }
+      }
+
+      &.network-card {
+        height: 52px;
+        padding: 6px 8px;
+
+        .card-icon-wrap {
+          width: 24px;
+          height: 24px;
+          font-size: 11px;
+        }
+
+        .network-body {
+          .title { font-size: 10px; margin-bottom: 3px; }
+        }
+
+        .stat-icon {
+          width: 10px;
+          height: 10px;
+          font-size: 8px;
+        }
+
+        .stat-label { font-size: 9px; }
+        .stat-value { font-size: 10px; }
       }
     }
   }

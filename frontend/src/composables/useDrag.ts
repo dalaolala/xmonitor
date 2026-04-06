@@ -1,5 +1,11 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
+// 检测是否为移动端设备
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    window.innerWidth <= 768
+}
+
 export function useDrag() {
   const dragState = ref({
     isDragging: false,
@@ -37,6 +43,11 @@ export function useDrag() {
   }
 
   const handleDragStart = (e: MouseEvent | TouchEvent, hostName: string) => {
+    // 移动端禁用拖拽功能
+    if (isMobileDevice()) {
+      return
+    }
+
     const card = e.currentTarget as HTMLElement
 
     dragState.value = {
@@ -195,17 +206,25 @@ export function useDrag() {
   }
 
   onMounted(() => {
+    // 鼠标事件始终监听（桌面端）
     document.addEventListener('mousemove', handleDragMove)
     document.addEventListener('mouseup', handleDragEnd)
-    document.addEventListener('touchmove', handleDragMove, { passive: false })
-    document.addEventListener('touchend', handleDragEnd)
+
+    // 触摸事件只在非移动端监听（用于带触摸屏的桌面设备）
+    if (!isMobileDevice()) {
+      document.addEventListener('touchmove', handleDragMove, { passive: false })
+      document.addEventListener('touchend', handleDragEnd)
+    }
   })
 
   onUnmounted(() => {
     document.removeEventListener('mousemove', handleDragMove)
     document.removeEventListener('mouseup', handleDragEnd)
-    document.removeEventListener('touchmove', handleDragMove)
-    document.removeEventListener('touchend', handleDragEnd)
+
+    if (!isMobileDevice()) {
+      document.removeEventListener('touchmove', handleDragMove)
+      document.removeEventListener('touchend', handleDragEnd)
+    }
   })
 
   return {

@@ -307,6 +307,56 @@ body[arco-theme='dark'] {
   .monitor-card {
     padding: 0 12px 16px;
   }
+
+  /* 移动端全局优化 */
+  body {
+    /* 禁止双击缩放 */
+    touch-action: manipulation;
+    /* 优化字体渲染 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* 防止 iOS Safari 自动调整字体大小 */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* 优化触摸反馈 */
+  * {
+    /* 移除点击高亮 */
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 优化滚动体验 */
+  .area-scroll,
+  .monitor-card {
+    /* iOS 平滑滚动 */
+    -webkit-overflow-scrolling: touch;
+    /* 防止滚动穿透 */
+    overscroll-behavior: contain;
+  }
+
+  /* 优化按钮触摸区域 */
+  .arco-btn {
+    min-height: 36px;
+  }
+
+  /* 优化下拉菜单 */
+  .arco-dropdown {
+    max-width: 90vw;
+  }
+
+  /* 优化弹窗 */
+  .arco-modal {
+    max-width: 95vw !important;
+    max-height: 90vh !important;
+    margin: 5vh auto !important;
+  }
+
+  .arco-modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 @media screen and (max-width: 1920px) {
@@ -322,13 +372,48 @@ body[arco-theme='dark'] {
 }
 
 @media screen and (max-width: 768px) {
-  .max-container { max-width: 720px; }
+  .max-container { max-width: 100%; }
 }
 
 @media screen and (max-width: 576px) {
   .max-container {
     max-width: 100%;
+    padding: 0 6px;
+  }
+
+  .monitor-card {
+    padding: 0 10px 12px;
+  }
+
+  /* 超小屏幕弹窗优化 */
+  .arco-modal {
+    max-width: 98vw !important;
+    max-height: 95vh !important;
+    margin: 2vh auto !important;
+  }
+
+  .arco-modal-body {
+    max-height: 80vh;
+    padding: 12px !important;
+  }
+
+  .arco-modal-header {
+    padding: 12px 16px !important;
+  }
+
+  .arco-modal-footer {
+    padding: 12px 16px !important;
+  }
+}
+
+/* 超小屏幕优化 */
+@media screen and (max-width: 360px) {
+  .max-container {
     padding: 0 4px;
+  }
+
+  .monitor-card {
+    padding: 0 8px 10px;
   }
 }
 </style>

@@ -196,19 +196,99 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 768px) {
   .area-wrap {
-    margin: 2px 16px 6px;
+    margin: 2px 12px 4px;
 
-    &::after { width: 20px; }
+    &::after { width: 16px; }
+  }
+
+  .area-scroll {
+    padding: 3px 2px 3px;
+    gap: 1px;
+    /* 启用平滑滚动 */
+    scroll-behavior: smooth;
+    /* 防止横向滚动时触发其他手势 */
+    overscroll-behavior-x: contain;
+  }
+
+  .area-divider {
+    height: 14px;
+    margin: 0 3px;
   }
 
   .area-tab {
-    .tab-inner { padding: 4px 8px 3px; }
-    .tab-globe { font-size: 20px; }
-    .tab-flag {
-      width: 24px !important;
-      height: 17px !important;
+    border-radius: 8px;
+    padding: 1px;
+
+    .tab-inner {
+      padding: 3px 6px 2px;
+      gap: 2px;
     }
-    .tab-text { font-size: 10.5px; }
+
+    .tab-globe {
+      font-size: 18px;
+    }
+
+    .tab-flag {
+      width: 22px !important;
+      height: 15px !important;
+      border-radius: 3px;
+    }
+
+    .tab-text {
+      font-size: 10px;
+    }
+
+    .tab-active-bar {
+      width: 16px;
+      height: 2px;
+      bottom: 1px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .area-wrap {
+    margin: 1px 10px 3px;
+
+    &::after { width: 12px; }
+  }
+
+  .area-scroll {
+    padding: 2px 1px 2px;
+    gap: 0px;
+  }
+
+  .area-divider {
+    height: 12px;
+    margin: 0 2px;
+  }
+
+  .area-tab {
+    border-radius: 6px;
+
+    .tab-inner {
+      padding: 2px 5px 1px;
+      gap: 1px;
+    }
+
+    .tab-globe {
+      font-size: 16px;
+    }
+
+    .tab-flag {
+      width: 20px !important;
+      height: 14px !important;
+      border-radius: 2px;
+    }
+
+    .tab-text {
+      font-size: 9px;
+    }
+
+    .tab-active-bar {
+      width: 14px;
+      height: 1.5px;
+    }
   }
 }
 </style>

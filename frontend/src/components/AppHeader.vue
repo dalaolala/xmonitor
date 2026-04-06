@@ -267,35 +267,58 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 768px) {
   .header {
-    padding: 0 16px;
-    height: 56px;
+    padding: 0 12px;
+    height: 52px;
+
+    .header-actions {
+      gap: 4px;
+    }
 
     .action-btn {
-      padding: 0 10px !important;
+      padding: 0 8px !important;
+      height: 36px !important;
+      border-radius: 8px !important;
 
       .btn-text {
         display: none;
+      }
+
+      .arco-icon {
+        font-size: 16px;
+      }
+    }
+
+    .theme-btn {
+      width: 36px !important;
+      height: 36px !important;
+
+      .arco-icon {
+        font-size: 16px;
       }
     }
   }
 
   .logo {
-    gap: 10px;
+    gap: 8px;
 
     .logo-icon-wrap {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
 
       .logo-icon {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
       }
     }
 
     .logo-text {
       .logo-title {
-        font-size: 15px;
+        font-size: 14px;
+      }
+
+      .logo-subtitle {
+        font-size: 10px;
       }
     }
   }
@@ -303,14 +326,55 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 480px) {
   .header {
+    padding: 0 10px;
+    height: 48px;
+
+    .header-actions {
+      gap: 3px;
+    }
+
     .action-btn {
-      padding: 0 8px !important;
-      height: 32px !important;
+      padding: 0 6px !important;
+      height: 34px !important;
+      border-radius: 7px !important;
+
+      .arco-icon {
+        font-size: 15px;
+      }
     }
 
     .theme-btn {
-      width: 32px !important;
-      height: 32px !important;
+      width: 34px !important;
+      height: 34px !important;
+
+      .arco-icon {
+        font-size: 15px;
+      }
+    }
+  }
+
+  .logo {
+    gap: 6px;
+
+    .logo-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+
+      .logo-icon {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    .logo-text {
+      .logo-title {
+        font-size: 13px;
+      }
+
+      .logo-subtitle {
+        display: none;
+      }
     }
   }
 }

@@ -60,13 +60,12 @@ const getDueDaysClass = computed(() => {
     :class="isActive ? 'is-active' : ''"
     :data-host="item.Host.Name"
     @click="emit('selectHost', item.Host.Name)"
-    @mousedown="(e) => emit('dragStart', e, item.Host.Name)"
-    @touchstart="(e) => emit('dragStart', e, item.Host.Name)">
+    @mousedown="(e) => emit('dragStart', e, item.Host.Name)">
 
     <!-- 左侧状态条 -->
     <div class="status-bar" :class="item.status ? 'status-bar-online' : 'status-bar-offline'"></div>
 
-    <!-- 标签行：水平排列 -->
+    <!-- 桌面端：标签行 -->
     <div class="row-labels">
       <div class="label-item">{{item.Host.Name}}</div>
       <div class="label-item">{{ $t('system') }}</div>
@@ -78,7 +77,7 @@ const getDueDaysClass = computed(() => {
       <div class="label-item">{{ $t('report-time') }}</div>
     </div>
 
-    <!-- 内容行：水平排列 -->
+    <!-- 桌面端：内容行 -->
     <div class="row-values">
       <!-- 主机状态 -->
       <div class="value-item name">
@@ -176,6 +175,71 @@ const getDueDaysClass = computed(() => {
       </div>
     </div>
 
+    <!-- 移动端：紧凑布局 -->
+    <div class="mobile-content">
+      <!-- 移动端头部：主机名 + 状态 -->
+      <div class="mobile-header">
+        <span class="mobile-name">{{item.Host.Name}}</span>
+        <div class="mobile-status">
+          <span class="mobile-status-dot" :class="item.status ? 'online' : ''"></span>
+          <span class="mobile-status-text" :class="item.status ? 'online' : ''">{{item.status ? $t('online') : $t('offline')}}</span>
+          <span class="mobile-uptime">{{formatUptime(item.State.Uptime)}}</span>
+        </div>
+      </div>
+
+      <!-- 移动端统计：CPU + 内存 -->
+      <div class="mobile-stats">
+        <!-- CPU -->
+        <div class="mobile-stat-item">
+          <span class="mobile-stat-label">CPU</span>
+          <div class="mobile-stat-gauge">
+            <svg viewBox="0 0 36 36">
+              <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="gauge-fill" :class="progressStatus(cpuPercent)" :stroke-dasharray="`${cpuPercent}, 100`" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span class="gauge-percent" :class="progressStatus(cpuPercent)">{{cpuPercent.toFixed(0)}}%</span>
+          </div>
+        </div>
+        <!-- 内存 -->
+        <div class="mobile-stat-item">
+          <span class="mobile-stat-label">{{ $t('memory') }}</span>
+          <div class="mobile-stat-gauge">
+            <svg viewBox="0 0 36 36">
+              <path class="gauge-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+              <path class="gauge-fill" :class="progressStatus(memPercent)" :stroke-dasharray="`${memPercent}, 100`" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            </svg>
+            <span class="gauge-percent" :class="progressStatus(memPercent)">{{memPercent.toFixed(0)}}%</span>
+          </div>
+        </div>
+        <!-- 负载 -->
+        <div class="mobile-stat-item">
+          <span class="mobile-stat-label">{{ $t('load') }}</span>
+          <span class="mobile-stat-value" :class="loadStatus(item.State.Load1) === 'high' ? 'danger' : loadStatus(item.State.Load1) === 'medium' ? 'warning' : 'success'">{{item.State.Load1}}</span>
+        </div>
+      </div>
+
+      <!-- 移动端网络 -->
+      <div class="mobile-network">
+        <div class="mobile-net-item">
+          <span class="mobile-net-icon up"><icon-arrow-up /></span>
+          <span class="mobile-net-speed up">{{formatBytes(item.State.NetOutSpeed)}}/s</span>
+        </div>
+        <div class="mobile-net-item">
+          <span class="mobile-net-icon down"><icon-arrow-down /></span>
+          <span class="mobile-net-speed down">{{formatBytes(item.State.NetInSpeed)}}/s</span>
+        </div>
+      </div>
+
+      <!-- 移动端底部：到期 + 上报时间 -->
+      <div class="mobile-footer">
+        <span class="mobile-due" :class="getDueDaysClass">
+          <template v-if="getDueDays !== null && getDueDays !== '-'">{{ $t('due-time-only') }}: {{getDueDays}}{{ $t('days') }}</template>
+          <template v-else>{{ $t('due-time-only') }}: -</template>
+        </span>
+        <span class="mobile-report">{{formatTimeStamp(item.TimeStamp)}}</span>
+      </div>
+    </div>
+
     <!-- 详情区域 -->
     <MonitorCardDetail
       v-if="isActive"
@@ -211,7 +275,8 @@ const getDueDaysClass = computed(() => {
   perspective: 800px;
   will-change: transform;
   user-select: none;
-  touch-action: none;
+  /* 桌面端禁用触摸操作以支持拖拽，移动端允许垂直滚动 */
+  touch-action: pan-y;
   backface-visibility: hidden;
   overflow: hidden;
 
@@ -306,8 +371,9 @@ const getDueDaysClass = computed(() => {
       }
 
       .uptime-text {
-        font-size: 11px;
-        color: #86909c;
+        font-size: 12px;
+        font-weight: 500;
+        color: #1d2129;
         white-space: nowrap;
       }
 
@@ -586,7 +652,7 @@ const getDueDaysClass = computed(() => {
     .report-val {
       font-size: 12px;
       font-weight: 500;
-      color: #4e5969;
+      color: #1d2129;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -632,6 +698,35 @@ const getDueDaysClass = computed(() => {
     &:hover { background: rgba(245, 63, 63, 0.15); }
     .arco-icon { color: #F53F3F; }
   }
+
+  /* 移动端布局默认隐藏（桌面端） */
+  .mobile-content {
+    display: none;
+  }
+  .mobile-header {
+    display: none;
+  }
+  .mobile-status {
+    display: none;
+  }
+  .mobile-stats {
+    display: none;
+  }
+  .mobile-stat-item {
+    display: none;
+  }
+  .mobile-network {
+    display: none;
+  }
+  .mobile-net-item {
+    display: none;
+  }
+  .mobile-footer {
+    display: none;
+  }
+  .mobile-report {
+    display: none;
+  }
 }
 
 @keyframes pulse-dot {
@@ -662,7 +757,7 @@ body[arco-theme='dark'] {
       .row-labels .label-item { color: #777; }
 
       .name .host-title .host-name { color: #f0f0f0; }
-      .name .uptime-text { color: #777; }
+      .name .uptime-text { color: #888; }
 
       .platform .platform-val { color: #888; }
 
@@ -710,10 +805,41 @@ body[arco-theme='dark'] {
       .due .due-val.due-warn { color: #FFB74D; }
       .due .due-val.due-danger { color: #FF7070; }
       .report .report-val { color: #888; }
+      .uptime-text { color: #888; }
 
       .detail {
         border-color: #2a2a2a;
       }
+
+      /* 移动端暗色主题 */
+      .mobile-name { color: #f0f0f0; }
+      .mobile-uptime { color: #777; }
+      .mobile-stat-label { color: #888; }
+      .mobile-stat-value { color: #e0e0e0; }
+      .mobile-stat-value.success { color: #54D474; }
+      .mobile-stat-value.warning { color: #FFB74D; }
+      .mobile-stat-value.danger { color: #FF7070; }
+      .mobile-stat-item { background: rgba(255,255,255,0.05); }
+      .mobile-stat-gauge .gauge-bg { stroke: #333; }
+      .mobile-stat-gauge .gauge-fill.success { stroke: #54D474; }
+      .mobile-stat-gauge .gauge-fill.warning { stroke: #FFB74D; }
+      .mobile-stat-gauge .gauge-fill.danger { stroke: #FF7070; }
+      .mobile-stat-gauge .gauge-percent { color: #e0e0e0; }
+      .mobile-stat-gauge .gauge-percent.success { color: #54D474; }
+      .mobile-stat-gauge .gauge-percent.warning { color: #FFB74D; }
+      .mobile-stat-gauge .gauge-percent.danger { color: #FF7070; }
+      .mobile-network { background: rgba(255,255,255,0.04); }
+      .mobile-net-icon.up { background: rgba(255, 184, 77, 0.15); color: #FFB74D; }
+      .mobile-net-icon.down { background: rgba(179, 157, 219, 0.15); color: #B39DDB; }
+      .mobile-net-speed.up { color: #FFB74D; }
+      .mobile-net-speed.down { color: #B39DDB; }
+      .mobile-footer { color: #888; }
+      .mobile-due { color: #a0a0a0; }
+      .mobile-due.due-warn { color: #FFB74D; }
+      .mobile-due.due-danger { color: #FF7070; }
+      .action-btns { border-top-color: rgba(255,255,255,0.08); }
+      .edit-btn { background: rgba(22, 93, 255, 0.12); color: #5B8AF0; }
+      .delete-btn { background: rgba(245, 63, 63, 0.12); color: #FF7070; }
     }
   }
 }
@@ -730,13 +856,289 @@ body[arco-theme='dark'] {
   }
 }
 
+/* 移动端紧凑布局 */
 @media screen and (max-width: 768px) {
   .monitor-item {
-    padding: 8px 12px 8px 20px !important;
+    padding: 10px 12px 10px 18px !important;
+    margin-bottom: 8px;
+    border-radius: 10px;
 
-    .name { flex: 1.8 !important; }
-    .network { display: none !important; }
-    .report { display: none !important; }
+    /* 隐藏桌面端标签行 */
+    .row-labels { display: none !important; }
+
+    /* 隐藏桌面端水平布局 */
+    .row-values { display: none !important; }
+
+    /* 移动端紧凑内容区 */
+    .mobile-content {
+      display: flex !important;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mobile-header {
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mobile-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1d2129;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .mobile-status {
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .mobile-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #F53F3F;
+    }
+
+    .mobile-status-dot.online {
+      background: #00B42A;
+      box-shadow: 0 0 0 2px rgba(0, 180, 42, 0.2);
+    }
+
+    .mobile-status-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: #F53F3F;
+    }
+
+    .mobile-status-text.online {
+      color: #00B42A;
+    }
+
+    .mobile-uptime {
+      font-size: 11px;
+      color: #86909c;
+      margin-left: 4px;
+    }
+
+    .mobile-stats {
+      display: flex !important;
+      gap: 6px;
+    }
+
+    .mobile-stat-item {
+      flex: 1;
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 4px;
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 8px;
+      min-width: 0;
+    }
+
+    .mobile-stat-label {
+      font-size: 10px;
+      color: #86909c;
+      margin-bottom: 2px;
+    }
+
+    .mobile-stat-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1d2129;
+    }
+
+    .mobile-stat-value.success { color: #00B42A; }
+    .mobile-stat-value.warning { color: #FF7D00; }
+    .mobile-stat-value.danger { color: #F53F3F; }
+
+    .mobile-stat-gauge {
+      width: 36px;
+      height: 36px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-stat-gauge svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .mobile-stat-gauge .gauge-bg {
+      fill: none;
+      stroke: #e5e6eb;
+      stroke-width: 3;
+    }
+
+    .mobile-stat-gauge .gauge-fill {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dasharray 0.3s ease;
+    }
+
+    .mobile-stat-gauge .gauge-fill.success { stroke: #00B42A; }
+    .mobile-stat-gauge .gauge-fill.warning { stroke: #FF7D00; }
+    .mobile-stat-gauge .gauge-fill.danger { stroke: #F53F3F; }
+
+    .mobile-stat-gauge .gauge-percent {
+      position: absolute;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .mobile-stat-gauge .gauge-percent.success { color: #00B42A; }
+    .mobile-stat-gauge .gauge-percent.warning { color: #FF7D00; }
+    .mobile-stat-gauge .gauge-percent.danger { color: #F53F3F; }
+
+    .mobile-network {
+      display: flex !important;
+      gap: 8px;
+      padding: 6px 8px;
+      background: rgba(0, 0, 0, 0.02);
+      border-radius: 6px;
+    }
+
+    .mobile-net-item {
+      flex: 1;
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mobile-net-icon {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+    }
+
+    .mobile-net-icon.up {
+      background: rgba(255, 125, 0, 0.12);
+      color: #FF7D00;
+    }
+
+    .mobile-net-icon.down {
+      background: rgba(114, 46, 209, 0.12);
+      color: #722ED1;
+    }
+
+    .mobile-net-speed {
+      font-size: 11px;
+      font-weight: 600;
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mobile-net-speed.up { color: #FF7D00; }
+    .mobile-net-speed.down { color: #722ED1; }
+
+    .mobile-footer {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #86909c;
+    }
+
+    .mobile-report {
+      display: flex !important;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mobile-due {
+      font-weight: 500;
+    }
+
+    .mobile-due.due-warn { color: #FF7D00; }
+    .mobile-due.due-danger { color: #F53F3F; }
+
+    /* 移动端操作按钮 */
+    .action-btns {
+      display: flex !important;
+      position: static;
+      transform: none;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .edit-btn, .delete-btn {
+      flex: 1;
+      height: 36px !important;
+      border-radius: 8px;
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .edit-btn {
+      background: rgba(22, 93, 255, 0.08);
+      color: #165DFF;
+      &:hover { background: rgba(22, 93, 255, 0.16); }
+    }
+
+    .delete-btn {
+      background: rgba(245, 63, 63, 0.08);
+      color: #F53F3F;
+      &:hover { background: rgba(245, 63, 63, 0.15); }
+    }
+
+    /* 激活状态下的移动端样式 */
+    &.is-active {
+      .mobile-content { display: flex !important; }
+      .action-btns {
+        display: none !important;
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+/* 超小屏幕优化 */
+@media screen and (max-width: 480px) {
+  .monitor-item {
+    padding: 8px 10px 8px 16px !important;
+    margin-bottom: 6px;
+    border-radius: 8px;
+
+    .mobile-content { gap: 6px; }
+
+    .mobile-name { font-size: 13px; }
+
+    .mobile-stat-item { padding: 5px 3px; }
+
+    .mobile-stat-gauge { width: 32px; height: 32px; }
+    .mobile-stat-gauge .gauge-percent { font-size: 9px; }
+
+    .mobile-network { padding: 5px 6px; gap: 6px; }
+    .mobile-net-speed { font-size: 10px; }
+
+    .edit-btn, .delete-btn { height: 32px !important; font-size: 11px; }
   }
 }
 </style>

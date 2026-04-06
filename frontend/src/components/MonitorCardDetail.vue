@@ -331,11 +331,127 @@ body[arco-theme='dark'] {
 
 @media screen and (max-width: 768px) {
   .detail {
-    .detail-item {
-      .d-label { width: 30%; }
+    margin-top: 6px;
+
+    .detail-divider {
+      margin: 8px 0 12px;
     }
 
-    .charts-panel { padding-left: 0; }
+    .detail-info-panel {
+      padding-right: 0;
+      padding-bottom: 8px;
+    }
+
+    .info-section {
+      margin-bottom: 10px;
+    }
+
+    .info-section-title {
+      font-size: 11px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+    }
+
+    .detail-grid {
+      gap: 4px;
+    }
+
+    .detail-item {
+      .d-label {
+        width: 28%;
+        font-size: 11px;
+      }
+
+      .d-value {
+        font-size: 12px;
+      }
+    }
+
+    .badge {
+      font-size: 10px;
+      padding: 0 5px;
+    }
+
+    .buy-link {
+      font-size: 11px;
+      max-width: 140px;
+    }
+
+    .charts-panel {
+      padding-left: 0;
+      padding-top: 8px;
+    }
+
+    .chart-card {
+      padding: 8px 8px 4px;
+      border-radius: 8px;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .detail {
+    margin-top: 4px;
+
+    .detail-divider {
+      margin: 6px 0 10px;
+    }
+
+    .detail-info-panel {
+      padding-bottom: 6px;
+    }
+
+    .info-section {
+      margin-bottom: 8px;
+    }
+
+    .info-section-title {
+      font-size: 10px;
+      margin-bottom: 5px;
+      padding-bottom: 3px;
+    }
+
+    .detail-grid {
+      gap: 3px;
+    }
+
+    .detail-item {
+      .d-label {
+        width: 26%;
+        font-size: 10px;
+      }
+
+      .d-value {
+        font-size: 11px;
+      }
+
+      .d-sub {
+        font-size: 10px;
+      }
+    }
+
+    .badge {
+      font-size: 9px;
+      padding: 0 4px;
+    }
+
+    .net-val {
+      font-size: 11px;
+    }
+
+    .buy-link {
+      font-size: 10px;
+      max-width: 120px;
+    }
+
+    .charts-panel {
+      padding-top: 6px;
+    }
+
+    .chart-card {
+      padding: 6px 6px 3px;
+      border-radius: 6px;
+    }
   }
 }
 </style>
