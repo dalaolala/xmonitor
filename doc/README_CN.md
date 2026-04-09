@@ -17,62 +17,20 @@
 - **多语言支持** - 中、英、日、韩、德五种语言
 - **主题切换** - 亮色/暗色主题
 
-## 快速安装
+## 安装部署
 
-### 一键管理脚本
+详细部署文档请参考：
+
+- [完整部署文档](DEPLOYMENT_CN.md)
+- [English Deployment Guide](DEPLOYMENT_EN.md)
+- [日本語デプロイガイド](DEPLOYMENT_JA.md)
+- [한국어 배포 가이드](DEPLOYMENT_KO.md)
+
+### 快速开始
 
 ```bash
 wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
 ```
-
-支持以下功能：
-- 安装主控前端
-- 安装主控后端
-- 卸载主控后端
-- 查看主控配置
-- 安装被控端
-- 卸载被控端
-- 查看被控配置
-
-### 主控后端安装
-
-```bash
-wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
-```
-
-### 被控端安装
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
-```
-
-示例：
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
-```
-
-### Alpine 系统被控端安装
-
-```bash
-wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
-```
-
-### 主控前端安装
-
-```bash
-wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
-```
-
-### 更新脚本
-
-```bash
-wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
-```
-
-支持更新：
-- 主控前端
-- 主控后端
-- 被控端
 
 ## 技术栈
 

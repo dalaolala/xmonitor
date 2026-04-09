@@ -1,6 +1,6 @@
 # XMonitor 完整部署文档
 
-本文档详细介绍了 XMonitor 服务器监控系统的完整部署流程，包括主控后端、前端界面和被控客户端的安装配置。
+本文档详细介绍了 XMonitor 服务器监控系统的完整部署流程。
 
 ---
 
@@ -537,55 +537,30 @@ systemctl restart x_monitor
 ### 主控端
 
 ```bash
-# 启动
-systemctl start x_monitor
-
-# 停止
-systemctl stop x_monitor
-
-# 重启
-systemctl restart x_monitor
-
-# 查看状态
-systemctl status x_monitor
-
-# 查看日志
-journalctl -u x_monitor -f
+systemctl start x_monitor    # 启动
+systemctl stop x_monitor     # 停止
+systemctl restart x_monitor  # 重启
+systemctl status x_monitor   # 查看状态
+journalctl -u x_monitor -f   # 查看日志
 ```
 
 ### 被控端
 
 ```bash
-# 启动
-systemctl start x_client
-
-# 停止
-systemctl stop x_client
-
-# 重启
-systemctl restart x_client
-
-# 查看状态
-systemctl status x_client
-
-# 查看日志
-journalctl -u x_client -f
+systemctl start x_client     # 启动
+systemctl stop x_client      # 停止
+systemctl restart x_client   # 重启
+systemctl status x_client    # 查看状态
+journalctl -u x_client -f    # 查看日志
 ```
 
 ### Caddy（前端服务）
 
 ```bash
-# 启动
-systemctl start caddy
-
-# 停止
-systemctl stop caddy
-
-# 重启
-systemctl restart caddy
-
-# 查看状态
-systemctl status caddy
+systemctl start caddy        # 启动
+systemctl stop caddy         # 停止
+systemctl restart caddy      # 重启
+systemctl status caddy       # 查看状态
 ```
 
 ---
@@ -611,24 +586,10 @@ wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/
 
 **检查项**：
 
-1. 检查前端配置文件 `/etc/x_monitor/frontend/config.json`：
-   ```bash
-   cat /etc/x_monitor/frontend/config.json
-   ```
-
-2. 确认 WebSocket 地址正确：
-   - 应为 `wss://api.monitor.example.com/ws`
-   - 不是 `ws://`（除非本地开发）
-
-3. 检查后端服务是否运行：
-   ```bash
-   systemctl status x_monitor
-   ```
-
-4. 检查 Caddy 反向代理配置：
-   ```bash
-   cat /etc/caddy/Caddyfile
-   ```
+1. 检查前端配置文件 `/etc/x_monitor/frontend/config.json`
+2. 确认 WebSocket 地址正确（应为 `wss://`）
+3. 检查后端服务是否运行：`systemctl status x_monitor`
+4. 检查 Caddy 反向代理配置
 
 ### 2. 被控端无法连接主控
 
@@ -636,14 +597,8 @@ wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/
 
 1. 确认 `auth_secret` 与主控端一致
 2. 确认上报地址正确（应为 `/monitor` 路径）
-3. 检查网络连通性：
-   ```bash
-   curl -v https://api.monitor.example.com/monitor
-   ```
-4. 查看被控端日志：
-   ```bash
-   journalctl -u x_client -f
-   ```
+3. 检查网络连通性：`curl -v https://api.monitor.example.com/monitor`
+4. 查看被控端日志：`journalctl -u x_client -f`
 
 ### 3. 网卡流量显示为 0
 
@@ -651,23 +606,13 @@ wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/
 
 **解决方法**：
 
-1. 查看正确的网卡名称：
-   ```bash
-   ip link
-   ```
+1. 查看正确的网卡名称：`ip link`
 2. 修改配置文件 `/etc/x_monitor/client.json`
-3. 重启服务：
-   ```bash
-   systemctl restart x_client
-   ```
+3. 重启服务：`systemctl restart x_client`
 
 ### 4. HTTPS 证书问题
 
-**检查 Caddy 日志**：
-
-```bash
-journalctl -u caddy -f
-```
+检查 Caddy 日志：`journalctl -u caddy -f`
 
 **常见原因**：
 - DNS 解析未生效
@@ -694,58 +639,6 @@ journalctl -u caddy -f
 | Caddy 配置 | `/etc/caddy/Caddyfile` | 反向代理配置 |
 | 主控端服务 | `/etc/systemd/system/x_monitor.service` | Systemd 服务 |
 | 被控端服务 | `/etc/systemd/system/x_client.service` | Systemd 服务 |
-
----
-
-## 完整部署示例
-
-假设你有以下环境：
-
-- 主控服务器：`1.2.3.4`
-- 前端域名：`monitor.example.com`
-- 后端域名：`api.monitor.example.com`
-- 被控服务器 A：香港
-- 被控服务器 B：日本
-
-### 步骤 1：配置 DNS 解析
-
-```
-monitor.example.com     A     1.2.3.4
-api.monitor.example.com A     1.2.3.4
-```
-
-### 步骤 2：在主控服务器部署
-
-```bash
-# 下载并运行一键脚本
-wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
-
-# 选择「安装主控后端」
-# 输入 auth_secret: mySecretKey123
-# 输入端口: 3001
-# 输入 hook_token: myHookToken456
-
-# 选择「安装主控前端」
-# 输入前端域名: monitor.example.com
-# 输入后端域名: api.monitor.example.com
-# 输入后端端口: 3001
-```
-
-### 步骤 3：在被控服务器 A（香港）部署
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh mySecretKey123 wss://api.monitor.example.com/monitor HK-Server01
-```
-
-### 步骤 4：在被控服务器 B（日本）部署
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh mySecretKey123 wss://api.monitor.example.com/monitor JP-Tokyo01
-```
-
-### 步骤 5：访问前端
-
-打开浏览器访问 `https://monitor.example.com`，即可看到监控面板。
 
 ---
 

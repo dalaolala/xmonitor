@@ -17,62 +17,20 @@
 - **多言語対応** - 中国語、英語、日本語、韓国語、ドイツ語の5言語対応
 - **テーマ切替** - ライト/ダークテーマ対応
 
-## クイックインストール
+## インストール
 
-### ワンクリック管理スクリプト
+詳細なデプロイガイドはこちら：
+
+- [完全デプロイガイド](DEPLOYMENT_JA.md)
+- [English Deployment Guide](DEPLOYMENT_EN.md)
+- [中文部署文档](DEPLOYMENT_CN.md)
+- [한국어 배포 가이드](DEPLOYMENT_KO.md)
+
+### クイックスタート
 
 ```bash
 wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
 ```
-
-機能：
-- モニターフロントエンドのインストール
-- モニターバックエンドのインストール
-- モニターバックエンドのアンインストール
-- モニター設定の表示
-- クライアントエージェントのインストール
-- クライアントエージェントのアンインストール
-- クライアント設定の表示
-
-### モニターバックエンドのインストール
-
-```bash
-wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
-```
-
-### クライアントエージェントのインストール
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
-```
-
-例：
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
-```
-
-### Alpine Linux クライアントエージェントのインストール
-
-```bash
-wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
-```
-
-### モニターフロントエンドのインストール
-
-```bash
-wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
-```
-
-### アップデートスクリプト
-
-```bash
-wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
-```
-
-アップデート対象：
-- モニターフロントエンド
-- モニターバックエンド
-- クライアントエージェント
 
 ## 技術スタック
 

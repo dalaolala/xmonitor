@@ -17,62 +17,20 @@
 - **다국어 지원** - 중국어, 영어, 일본어, 한국어, 독일어 5개 언어 지원
 - **테마 전환** - 라이트/다크 테마 지원
 
-## 빠른 설치
+## 설치
 
-### 원클릭 관리 스크립트
+詳細한 배포 가이드는 여기를 참조하세요:
+
+- [완전 배포 가이드](DEPLOYMENT_KO.md)
+- [English Deployment Guide](DEPLOYMENT_EN.md)
+- [中文部署文档](DEPLOYMENT_CN.md)
+- [日本語デプロイガイド](DEPLOYMENT_JA.md)
+
+### 빠른 시작
 
 ```bash
 wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
 ```
-
-지원 기능:
-- 모니터 프론트엔드 설치
-- 모니터 백엔드 설치
-- 모니터 백엔드 제거
-- 모니터 설정 확인
-- 클라이언트 에이전트 설치
-- 클라이언트 에이전트 제거
-- 클라이언트 설정 확인
-
-### 모니터 백엔드 설치
-
-```bash
-wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
-```
-
-### 클라이언트 에이전트 설치
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
-```
-
-예시:
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
-```
-
-### Alpine Linux 클라이언트 에이전트 설치
-
-```bash
-wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
-```
-
-### 모니터 프론트엔드 설치
-
-```bash
-wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
-```
-
-### 업데이트 스크립트
-
-```bash
-wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
-```
-
-업데이트 항목:
-- 모니터 프론트엔드
-- 모니터 백엔드
-- 클라이언트 에이전트
 
 ## 기술 스택
 

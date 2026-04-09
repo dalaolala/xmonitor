@@ -17,62 +17,20 @@ A lightweight, high-performance server monitoring system with multi-server manag
 - **Multi-Language Support** - Chinese, English, Japanese, Korean, German
 - **Theme Switching** - Light/Dark theme support
 
-## Quick Installation
+## Installation
 
-### One-Click Management Script
+For detailed deployment instructions, see:
+
+- [English Deployment Guide](doc/DEPLOYMENT_EN.md)
+- [中文部署文档](doc/DEPLOYMENT_CN.md)
+- [日本語デプロイガイド](doc/DEPLOYMENT_JA.md)
+- [한국어 배포 가이드](doc/DEPLOYMENT_KO.md)
+
+### Quick Start
 
 ```bash
 wget -O ak-setup.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-setup.sh" && chmod +x ak-setup.sh && sudo ./ak-setup.sh
 ```
-
-Features:
-- Install monitor frontend
-- Install monitor backend
-- Uninstall monitor backend
-- View monitor configuration
-- Install client agent
-- Uninstall client agent
-- View client configuration
-
-### Monitor Backend Installation
-
-```bash
-wget -O setup-monitor.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor.sh" && chmod +x setup-monitor.sh && sudo ./setup-monitor.sh
-```
-
-### Client Agent Installation
-
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh <auth_secret> <url> <name>
-```
-
-Example:
-```bash
-wget -O setup-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-client.sh" && chmod +x setup-client.sh && sudo ./setup-client.sh 123321 wss://api.example.com/ws HK-XMonitor
-```
-
-### Alpine Linux Client Agent Installation
-
-```bash
-wget -O alpine-client.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/alpine-client.sh" && chmod +x alpine-client.sh && sudo ./alpine-client.sh <auth_secret> <url> <name>
-```
-
-### Monitor Frontend Installation
-
-```bash
-wget -O setup-monitor-fe.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/setup-monitor-fe.sh" && chmod +x setup-monitor-fe.sh && sudo ./setup-monitor-fe.sh
-```
-
-### Update Script
-
-```bash
-wget -O ak-update.sh "https://raw.githubusercontent.com/dalaolala/xmonitor/refs/heads/master/backend/ak-update.sh" && chmod +x ak-update.sh && sudo ./ak-update.sh
-```
-
-Update options:
-- Monitor frontend
-- Monitor backend
-- Client agent
 
 ## Tech Stack
 
