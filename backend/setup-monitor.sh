@@ -30,7 +30,7 @@ cd /etc/x_monitor/
 
 # Download monitor
 wget -O x_monitor https://github.com/dalaolala/xmonitor/releases/latest/download/$MONITOR_FILE
-chmod 777 x_monitor
+chmod 755 x_monitor
 
 # Create service file
 cat > /etc/systemd/system/x_monitor.service <<EOF

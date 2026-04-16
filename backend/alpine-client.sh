@@ -126,7 +126,7 @@ cd /etc/x_monitor/
 
 # Download client
 wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
-chmod 777 client
+chmod 755 client
 
 # Create openrc service file
 cat > /etc/init.d/x_client << 'EOF'

@@ -99,7 +99,7 @@ function update_monitor() {
     # 下载新版本
     echo "下载新版本..."
     wget -O x_monitor https://github.com/dalaolala/xmonitor/releases/latest/download/$MONITOR_FILE
-    chmod 777 x_monitor
+    chmod 755 x_monitor
     
     # 重启服务
     systemctl start x_monitor
@@ -129,7 +129,7 @@ function update_client() {
     # 下载新版本
     echo "下载新版本..."
     wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
-    chmod 777 client
+    chmod 755 client
     
     # 重启服务
     systemctl start x_client

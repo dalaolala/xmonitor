@@ -33,8 +33,6 @@ get_main_interface() {
            echo "${bytes} B"
        elif [ $bytes -lt 1048576 ]; then # 1024*1024
            echo "$(echo "scale=2; $bytes/1024" | bc) KB"
-       elif [ $bytes -lt 1048576 ]; then # 1024*1024
-           echo "$(echo "scale=2; $bytes/1024" | bc) KB"
        elif [ $bytes -lt 1073741824 ]; then # 1024*1024*1024
            echo "$(echo "scale=2; $bytes/1024/1024" | bc) MB"
        elif [ $bytes -lt 1099511627776 ]; then # 1024*1024*1024*1024
@@ -130,7 +128,7 @@ cd /etc/x_monitor/
 
 # Download client
 wget -O client https://github.com/dalaolala/xmonitor/releases/latest/download/$CLIENT_FILE
-chmod 777 client
+chmod 755 client
 
 # Create systemd service file
 cat > /etc/systemd/system/x_client.service << 'EOF'
